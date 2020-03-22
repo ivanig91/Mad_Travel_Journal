@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.lugares.LugarCultura;
-import com.len1.madtraveljournal.lugares.LugarMonumento;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
