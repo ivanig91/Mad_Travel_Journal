@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "160580512174",
+    "firebase_url": "https://madtraveljournal.firebaseio.com",
+    "project_id": "madtraveljournal",
+    "storage_bucket": "madtraveljournal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160580512174:android:3d5eef5c43675327a8403f",
+        "android_client_info": {
+          "package_name": "com.len1.madtraveljournal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160580512174-13b932s614kddv8rbhnmfasun9po6msk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.len1.madtraveljournal",
+            "certificate_hash": "84e0a417e37b7e569a38e1e8f96721c21870bc77"
+          }
+        },
+        {
+          "client_id": "160580512174-1kksvg5f7uf7kr5v6lbmbj1phv0u39b1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9B6IjcO9gjSdRRMjNW0CVdipZwVgilS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160580512174-1kksvg5f7uf7kr5v6lbmbj1phv0u39b1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
