@@ -63,8 +63,9 @@ public class DescargaMuseo extends AsyncTask<String,Void,Void> {
                 }
 
                 i++;
-                Log.i("llega",museo.getNombre());
                 flip=false;
+                Log.i("museo",museo.getNombre());
+
 
             } catch (JSONException e) {
                 e.printStackTrace();

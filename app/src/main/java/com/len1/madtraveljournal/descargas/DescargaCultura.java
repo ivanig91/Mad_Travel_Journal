@@ -44,7 +44,7 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
         LugarCultura actCultura =null;
 
         int i=0;
-        int cp;
+        int cp=0;
         String cpString;
         boolean flip = false;
 
@@ -56,23 +56,24 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
                     if (cp >= Constantes.CP_MIN && cp <= Constantes.CP_MAX) {
                         flip = true;
                     }
+                    if(jsonArray.getJSONObject(i).has("location") && flip && jsonArray.getJSONObject(i).has("address")){
+                        id = jsonArray.getJSONObject(i).getString("id");
+                        nombre = jsonArray.getJSONObject(i).getString("title");
+                        descripcion = jsonArray.getJSONObject(i).getString("description");
+                        direccion = jsonArray.getJSONObject(i).getJSONObject("address").getJSONObject("area").getString("street-address");
+                        latitud = jsonArray.getJSONObject(i).getJSONObject("location").getString("latitude");
+                        longitud = jsonArray.getJSONObject(i).getJSONObject("location").getString("longitude");
+                        precio = jsonArray.getJSONObject(i).getString("free");
+                        horaComienzo = jsonArray.getJSONObject(i).getString("dtstart");
+                        horaFin = jsonArray.getJSONObject(i).getString("dtend");
+                        eventLocation = jsonArray.getJSONObject(i).getString("event-location");
+
+                        actCultura = new LugarCultura(id,nombre,descripcion,direccion,latitud,longitud,precio,horaComienzo,horaFin,eventLocation);
+                        actividadesCultura.add(actCultura);
+                    }
+
                 }
 
-                if(jsonArray.getJSONObject(i).has("location") && flip && jsonArray.getJSONObject(i).has("address")){
-                    id = jsonArray.getJSONObject(i).getString("id");
-                    nombre = jsonArray.getJSONObject(i).getString("title");
-                    descripcion = jsonArray.getJSONObject(i).getString("description");
-                    direccion = jsonArray.getJSONObject(i).getJSONObject("address").getJSONObject("area").getString("street-address");
-                    latitud = jsonArray.getJSONObject(i).getJSONObject("location").getString("latitude");
-                    longitud = jsonArray.getJSONObject(i).getJSONObject("location").getString("longitude");
-                    precio = jsonArray.getJSONObject(i).getString("free");
-                    horaComienzo = jsonArray.getJSONObject(i).getString("dtstart");
-                    horaFin = jsonArray.getJSONObject(i).getString("dtend");
-                    eventLocation = jsonArray.getJSONObject(i).getString("event-location");
-
-                    actCultura = new LugarCultura(id,nombre,descripcion,direccion,latitud,longitud,precio,horaComienzo,horaFin,eventLocation);
-                    actividadesCultura.add(actCultura);
-                }
 
 
             } catch (JSONException e) {
@@ -80,7 +81,7 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
             }
             i++;
             flip=false;
-
+            Log.i("cultura",actCultura.getNombre());
         }
 
         return null;

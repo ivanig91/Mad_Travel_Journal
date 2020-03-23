@@ -6,12 +6,9 @@ import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.lugares.LugarMercado;
-import com.len1.madtraveljournal.lugares.LugarMonumento;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,10 +46,11 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
                 cpString= jsonArray.getJSONObject(i).getJSONObject("address").getString("postal-code");
                 if(!cpString.equals("")){
                     cp= Integer.parseInt(cpString);
+                    if(cp>=Constantes.CP_MIN && cp <= Constantes.CP_MAX){
+                        flip = true;
+                    }
                 }
-                if(cp>=Constantes.CP_MIN && cp <= Constantes.CP_MAX){
-                    flip = true;
-                }
+
 
                 if(jsonArray.getJSONObject(i).has("location") && flip){
 
@@ -71,9 +69,9 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             i++;
+            flip = false;
+            Log.i("mercados",mercado.getNombre());
         }
 
 
