@@ -3,8 +3,13 @@ package com.len1.madtraveljournal.descargas;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+
+
 
 import com.len1.madtraveljournal.Constantes;
+
+
 import com.len1.madtraveljournal.lugares.LugarMercado;
 
 import org.json.JSONArray;
@@ -17,14 +22,21 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
     private ProgressDialog dialog;
     private ArrayList<LugarMercado> mercados;
     JSONArray jsonArray = null;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> cadenas;
 
-    public DescargaMercados(ArrayList<LugarMercado> mercados) {
+
+
+    public DescargaMercados(ArrayList<LugarMercado> mercados,ArrayAdapter<String>adapter,ArrayList<String> cadenas) {
         this.mercados = mercados;
+        this.adapter = adapter;
+        this.cadenas = cadenas;
+
     }
 
     @Override
     protected Void doInBackground(String... strings) {
-
+        Log.i("cadenas","llega hasta aca");
         CrearJSArray crea = new CrearJSArray(Constantes.urlMercados,"@graph");
 
         jsonArray = crea.creaJsonArray();
@@ -65,19 +77,42 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
                     mercado = new LugarMercado(id,nombre,descripcion,direccion,latitud,longitud,horario,servicios);
 
                     mercados.add(mercado);
+                    cadenas.add(mercado.getNombre());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             i++;
             flip = false;
-            Log.i("mercados",mercado.getNombre());
+
         }
 
 
 
 
         return null;
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        adapter.clear();
+        mercados = new ArrayList<>();
+
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+
+        adapter.notifyDataSetChanged();
     }
 
     public ArrayList<LugarMercado> getMercados() {
