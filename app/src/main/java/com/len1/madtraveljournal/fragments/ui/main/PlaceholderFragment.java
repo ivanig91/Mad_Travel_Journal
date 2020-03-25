@@ -79,7 +79,7 @@ public class PlaceholderFragment extends Fragment {
                     }
                 }else{
                     if(s.equals("2")){
-
+                        //probar cosas aca
                     }
                 }
             }
