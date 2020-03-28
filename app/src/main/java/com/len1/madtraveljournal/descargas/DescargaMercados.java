@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import com.len1.madtraveljournal.Constantes;
 
 
+import com.len1.madtraveljournal.adapters.LugarAdapter;
 import com.len1.madtraveljournal.lugares.LugarMercado;
 
 import org.json.JSONArray;
@@ -22,16 +23,14 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
     private ProgressDialog dialog;
     private ArrayList<LugarMercado> mercados;
     JSONArray jsonArray = null;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> cadenas;
+    private LugarAdapter adapter;
 
 
 
-    public DescargaMercados(ArrayList<LugarMercado> mercados,ArrayAdapter<String>adapter,ArrayList<String> cadenas) {
+
+    public DescargaMercados(ArrayList<LugarMercado> mercados,LugarAdapter adapter) {
         this.mercados = mercados;
         this.adapter = adapter;
-        this.cadenas = cadenas;
-
     }
 
     @Override
@@ -77,7 +76,7 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
                     mercado = new LugarMercado(id,nombre,descripcion,direccion,latitud,longitud,horario,servicios);
 
                     mercados.add(mercado);
-                    cadenas.add(mercado.getNombre());
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -96,7 +95,6 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
     @Override
     protected void onCancelled() {
         super.onCancelled();
-        adapter.clear();
         mercados = new ArrayList<>();
 
     }

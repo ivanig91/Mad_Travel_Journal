@@ -1,5 +1,7 @@
 package com.len1.madtraveljournal.lugares;
 
+import com.len1.madtraveljournal.R;
+
 public class LugarMercado extends Lugar {
     private String horario;
     private String servicios;
@@ -7,6 +9,7 @@ public class LugarMercado extends Lugar {
         super(id, nombre, descripcion, direccion, latitud, longitud);
         this.horario= horario;
         this.servicios = servicios;
+        this.setIcono(R.drawable.mercado);
     }
 
     public String getHorario() {

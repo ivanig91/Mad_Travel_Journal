@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.adapters.LugarAdapter;
+import com.len1.madtraveljournal.adapters.MonumentoAdapter;
 import com.len1.madtraveljournal.lugares.LugarMonumento;
 
 import org.json.JSONArray;
@@ -18,9 +20,11 @@ public class descargaMonumento extends AsyncTask<String,Void,Void> {
     private ProgressDialog dialog;  // tengo que terminar de hacer los metodos override
     private ArrayList<LugarMonumento> monumentos;
     private JSONArray jsonArray;
+    private MonumentoAdapter adapter;
 
-    public descargaMonumento(ArrayList<LugarMonumento> monumentos) {
+    public descargaMonumento(ArrayList<LugarMonumento> monumentos, MonumentoAdapter adapter) {
         this.monumentos = monumentos;
+        this.adapter = adapter;
     }
 
     @Override
@@ -72,10 +76,6 @@ public class descargaMonumento extends AsyncTask<String,Void,Void> {
 
             i++;
             flip=false;
-            if(objeto!= null){
-                Log.i("monumento",objeto.getNombre());
-            }
-
 
         }
 
@@ -85,16 +85,19 @@ public class descargaMonumento extends AsyncTask<String,Void,Void> {
     @Override
     protected void onCancelled(Void aVoid) {
         super.onCancelled(aVoid);
+        monumentos = new ArrayList<>();
     }
 
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        adapter.notifyDataSetChanged();
     }
 
     public ArrayList<LugarMonumento> getMonumentos() {

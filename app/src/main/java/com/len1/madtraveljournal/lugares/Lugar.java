@@ -1,5 +1,7 @@
 package com.len1.madtraveljournal.lugares;
 
+import android.media.Image;
+
 public class Lugar {
     private String id;
     private String nombre;
@@ -7,6 +9,7 @@ public class Lugar {
     private String direccion;
     private String latitud;
     private String longitud;
+    private int icono;
 
     public Lugar(String id, String nombre, String descripcion, String direccion, String latitud, String longitud) {
         this.id = id;
@@ -15,6 +18,14 @@ public class Lugar {
         this.direccion = direccion;
         this.latitud = latitud;
         this.longitud = longitud;
+    }
+
+    public int getIcono() {
+        return icono;
+    }
+
+    public void setIcono(int icono) {
+        this.icono = icono;
     }
 
     public String getId() {

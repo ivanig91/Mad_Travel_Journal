@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.adapters.CulturaAdapter;
 import com.len1.madtraveljournal.lugares.LugarCultura;
 
 
@@ -19,9 +20,11 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
     private ProgressDialog dialog;  // tengo que terminar de hacer los metodos override
     private ArrayList<LugarCultura> actividadesCultura;
     private JSONArray jsonArray;
+    private CulturaAdapter adapter;
 
-    public DescargaCultura(ArrayList<LugarCultura> actividadesCultura) {
+    public DescargaCultura(ArrayList<LugarCultura> actividadesCultura,CulturaAdapter adapter) {
         this.actividadesCultura = actividadesCultura;
+        this.adapter = adapter;
     }
 
 
@@ -81,7 +84,6 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
             }
             i++;
             flip=false;
-            Log.i("cultura",actCultura.getNombre());
         }
 
         return null;
@@ -90,15 +92,19 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
     @Override
     protected void onCancelled(Void aVoid) {
         super.onCancelled(aVoid);
+        actividadesCultura = new ArrayList<>();
     }
 
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        adapter.notifyDataSetChanged();
     }
+
 }

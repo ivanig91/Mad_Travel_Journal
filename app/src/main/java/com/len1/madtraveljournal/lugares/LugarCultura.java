@@ -1,5 +1,7 @@
 package com.len1.madtraveljournal.lugares;
 
+import com.len1.madtraveljournal.R;
+
 public class LugarCultura extends Lugar {
     String precio;
     String horaComienzo;
@@ -11,6 +13,7 @@ public class LugarCultura extends Lugar {
         this.horaComienzo = horaCominezo;
         this.horaFin = horaFin;
         this.eventLocation = eventLocation;
+        this.setIcono(R.drawable.mercado);
     }
 
     public String getEventLocation() {

@@ -53,12 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         desPiscina.execute(Constantes.urlPiscinas);
         DescargaTurismo descargaTurismo = new DescargaTurismo(puntos);
         descargaTurismo.execute(Constantes.urlTurismo);
-        DescargaCultura descargaCultura = new DescargaCultura(actCulturas);
-        descargaCultura.execute(Constantes.urlCultura);
+        //DescargaCultura descargaCultura = new DescargaCultura(actCulturas);
+        //descargaCultura.execute(Constantes.urlCultura);
         /*DescargaMercados descargaMercados = new DescargaMercados(mercados);
         descargaMercados.execute(Constantes.urlMercados);*/
-        descargaMonumento desMonumento = new descargaMonumento(monumentos);
-        desMonumento.execute(Constantes.urlMonumentos);
+        //descargaMonumento desMonumento = new descargaMonumento(monumentos);
+        //desMonumento.execute(Constantes.urlMonumentos);
         DescargaMuseo descargaMuseo = new DescargaMuseo(museos);
         descargaMuseo.execute(Constantes.urlMuseos);
 

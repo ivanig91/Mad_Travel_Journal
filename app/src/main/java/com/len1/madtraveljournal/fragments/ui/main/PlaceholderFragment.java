@@ -17,8 +17,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.R;
+import com.len1.madtraveljournal.adapters.CulturaAdapter;
+import com.len1.madtraveljournal.adapters.LugarAdapter;
+import com.len1.madtraveljournal.adapters.MonumentoAdapter;
+import com.len1.madtraveljournal.descargas.DescargaCultura;
 import com.len1.madtraveljournal.descargas.DescargaMercados;
+import com.len1.madtraveljournal.descargas.descargaMonumento;
+import com.len1.madtraveljournal.lugares.LugarCultura;
 import com.len1.madtraveljournal.lugares.LugarMercado;
+import com.len1.madtraveljournal.lugares.LugarMonumento;
 
 
 import java.util.ArrayList;
@@ -32,8 +39,15 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private ArrayList<String> cadenas;
     private DescargaMercados desMercados;
+    private descargaMonumento desMonumento;
+    private DescargaCultura desCultura;
+    private ArrayList<LugarCultura> actsCultura;
     private ArrayList<LugarMercado> mercados;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<LugarMonumento> monumentos;
+
+    private LugarAdapter adapter;
+    private MonumentoAdapter adapterMonumento;
+    private CulturaAdapter adapterCultura;
 
     private PageViewModel pageViewModel;
 
@@ -54,6 +68,13 @@ public class PlaceholderFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
+        mercados = new ArrayList<>();
+        monumentos = new ArrayList<>();
+        actsCultura = new ArrayList<>();
+
+        adapter = new  LugarAdapter(getActivity().getApplicationContext(),mercados);
+        adapterMonumento = new MonumentoAdapter(getActivity().getApplicationContext(),monumentos);
+        adapterCultura = new CulturaAdapter(getActivity().getApplicationContext(),actsCultura);
     }
 
     @Override
@@ -61,27 +82,46 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tabbed, container, false);
-        cadenas = new ArrayList<>();
-        mercados = new ArrayList<>();
-        adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,cadenas);
 
         final ListView listView = root.findViewById(R.id.lali1);
-        listView.setAdapter(adapter);
+
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
+
                 assert s != null;
                 if(s.equals("1")){
-                    if(desMercados==null){
 
-                        desMercados = new DescargaMercados(mercados,adapter,cadenas);
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    if(desMercados==null){
+                        desMercados = new DescargaMercados(mercados,adapter);
                         desMercados.execute(Constantes.urlMercados);
                     }
                 }else{
                     if(s.equals("2")){
-                        //probar cosas aca
+
+                        listView.setAdapter(adapterMonumento);
+                        adapterMonumento.notifyDataSetChanged();
+                        if(desMonumento==null){
+                            desMonumento = new descargaMonumento(monumentos,adapterMonumento);
+                            desMonumento.execute(Constantes.urlMonumentos);
+                         
+                        }
+                    }else{
+                        if(s.equals("3")){
+
+                            listView.setAdapter(adapterCultura);
+                            adapterCultura.notifyDataSetChanged();
+                            if(desCultura==null){
+                                desCultura = new DescargaCultura(actsCultura,adapterCultura);
+                                desCultura.execute(Constantes.urlCultura);
+                            }
+
+                        }
                     }
                 }
+                Log.i("tabF",s);
             }
         });
         return root;
