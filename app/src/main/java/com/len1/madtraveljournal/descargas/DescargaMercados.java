@@ -63,7 +63,7 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
                 }
 
 
-                if(jsonArray.getJSONObject(i).has("location") && flip){
+                if(jsonArray.getJSONObject(i).has("location") && flip && !lugarRepetido(jsonArray.getJSONObject(i).getString("title"))){
 
                     id = jsonArray.getJSONObject(i).getString("id");
                     nombre = jsonArray.getJSONObject(i).getString("title");
@@ -111,6 +111,15 @@ public class DescargaMercados extends AsyncTask<String,Void,Void> {
         super.onPostExecute(aVoid);
 
         adapter.notifyDataSetChanged();
+    }
+    private boolean lugarRepetido(String nombre){
+        boolean flip = false;
+        for(LugarMercado lugar : mercados){
+            if(lugar.getNombre().equals(nombre)){
+                flip = true;
+            }
+        }
+        return flip;
     }
 
     public ArrayList<LugarMercado> getMercados() {

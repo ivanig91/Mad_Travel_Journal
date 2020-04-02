@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.adapters.MuseoAdapter;
 import com.len1.madtraveljournal.lugares.LugarMercado;
 import com.len1.madtraveljournal.lugares.LugarMuseo;
 
@@ -18,9 +19,11 @@ public class DescargaMuseo extends AsyncTask<String,Void,Void> {
     private boolean error = false;  // tengo que terminar de hacer los metodos override
     private ProgressDialog dialog;  // tengo que terminar de hacer los metodos override
     private JSONArray jsonArray;
+    private MuseoAdapter adapter;
 
-    public DescargaMuseo(ArrayList<LugarMuseo> museos) {
+    public DescargaMuseo(ArrayList<LugarMuseo> museos, MuseoAdapter adapter) {
         this.museos = museos;
+        this.adapter = adapter;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class DescargaMuseo extends AsyncTask<String,Void,Void> {
                         flip =  true;
                     }
                 }
-                if (jsonArray.getJSONObject(i).has("location") && flip && jsonArray.getJSONObject(i).has("address")){
+                if (jsonArray.getJSONObject(i).has("location") && flip && jsonArray.getJSONObject(i).has("address") && !lugarRepetido(jsonArray.getJSONObject(i).getString("title"))){
                     id = jsonArray.getJSONObject(i).getString("id");
                     nombre = jsonArray.getJSONObject(i).getString("title");
                     descripcion = jsonArray.getJSONObject(i).getJSONObject("organization").getString("organization-desc");
@@ -64,7 +67,6 @@ public class DescargaMuseo extends AsyncTask<String,Void,Void> {
 
                 i++;
                 flip=false;
-                Log.i("museo",museo.getNombre());
 
 
             } catch (JSONException e) {
@@ -77,15 +79,27 @@ public class DescargaMuseo extends AsyncTask<String,Void,Void> {
     @Override
     protected void onCancelled(Void aVoid) {
         super.onCancelled(aVoid);
+        museos = new ArrayList<>();
     }
 
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        adapter.notifyDataSetChanged();
+    }
+    private boolean lugarRepetido(String nombre){
+        boolean flip = false;
+        for(LugarMuseo lugar : museos){
+            if(lugar.getNombre().equals(nombre)){
+                flip = true;
+            }
+        }
+        return flip;
     }
 }

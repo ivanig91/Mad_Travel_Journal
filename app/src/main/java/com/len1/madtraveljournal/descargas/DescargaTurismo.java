@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.adapters.TurismoAdapter;
 import com.len1.madtraveljournal.lugares.LugarTurismo;
 
 import org.json.JSONArray;
@@ -17,9 +18,11 @@ public class DescargaTurismo extends AsyncTask<String,Void,Void> {
     private ProgressDialog dialog;
     private ArrayList<LugarTurismo> puntosTuristicos;
     JSONArray jsonArray = null;
+    TurismoAdapter adapter;
 
-    public DescargaTurismo(ArrayList<LugarTurismo> puntosTuristicos) {
+    public DescargaTurismo(ArrayList<LugarTurismo> puntosTuristicos, TurismoAdapter adapter) {
         this.puntosTuristicos = puntosTuristicos;
+        this.adapter = adapter;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class DescargaTurismo extends AsyncTask<String,Void,Void> {
                         flip=true;
                     }
 
-                    if(flip){
+                    if(flip && !lugarRepetido(jsonArray.getJSONObject(i).getString("title"))){
                         id = jsonArray.getJSONObject(i).getString("id");
                         nombre = jsonArray.getJSONObject(i).getString("title");
                         descripcion = jsonArray.getJSONObject(i).getJSONObject("organization").getString("organization-desc");
@@ -66,10 +69,36 @@ public class DescargaTurismo extends AsyncTask<String,Void,Void> {
                 e.printStackTrace();
             }
             i++;
-            Log.i("turismo",puntoTurimo.getNombre());
+
             flip= false;
         }
         return null;
     }
 
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        puntosTuristicos = new ArrayList<>();
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+        adapter.notifyDataSetChanged();
+    }
+    private boolean lugarRepetido(String nombre){
+        boolean flip = false;
+        for(LugarTurismo lugar : puntosTuristicos){
+            if(lugar.getNombre().equals(nombre)){
+                flip = true;
+            }
+        }
+        return flip;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+
+    }
 }

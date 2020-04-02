@@ -56,7 +56,7 @@ public class descargaMonumento extends AsyncTask<String,Void,Void> {
                         flip = true;
                     }
 
-                    if(jsonArray.getJSONObject(i).has("location") && flip){
+                    if(jsonArray.getJSONObject(i).has("location") && flip && !lugarRepetido(jsonArray.getJSONObject(i).getString("title"))){
 
                         id = jsonArray.getJSONObject(i).getString("id");
                         nombre = jsonArray.getJSONObject(i).getString("title");
@@ -98,6 +98,15 @@ public class descargaMonumento extends AsyncTask<String,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         adapter.notifyDataSetChanged();
+    }
+    private boolean lugarRepetido(String nombre){
+        boolean flip = false;
+        for(LugarMonumento lugar : monumentos){
+            if(lugar.getNombre().equals(nombre)){
+                flip = true;
+            }
+        }
+        return flip;
     }
 
     public ArrayList<LugarMonumento> getMonumentos() {

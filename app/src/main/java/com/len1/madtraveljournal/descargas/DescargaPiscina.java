@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
 
+import com.len1.madtraveljournal.adapters.PiscinaAdapter;
 import com.len1.madtraveljournal.lugares.LugarPiscina;
 
 import org.json.JSONArray;
@@ -19,9 +20,11 @@ public class DescargaPiscina  extends AsyncTask<String,Void,Void> {
     private ProgressDialog dialog;  // tengo que terminar de hacer los metodos override
     private ArrayList<LugarPiscina> piscinas;
     private JSONArray jsonArray;
+    private PiscinaAdapter adapter;
 
-    public DescargaPiscina(ArrayList<LugarPiscina> piscinas) {
+    public DescargaPiscina(ArrayList<LugarPiscina> piscinas, PiscinaAdapter adapter) {
         this.piscinas = piscinas;
+        this.adapter = adapter;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class DescargaPiscina  extends AsyncTask<String,Void,Void> {
                     if(cp>= Constantes.CP_MIN && cp<= Constantes.CP_MAX){
                         flip = true;
                     }
-                    if(flip){
+                    if(flip && !lugarRepetido(jsonArray.getJSONObject(i).getString("title"))){
                         id = jsonArray.getJSONObject(i).getString("id");
                         nombre = jsonArray.getJSONObject(i).getString("title");
                         descripcion = jsonArray.getJSONObject(i).getJSONObject("organization").getString("organization-desc");
@@ -69,7 +72,7 @@ public class DescargaPiscina  extends AsyncTask<String,Void,Void> {
             }
             i++;
             flip=false;
-            Log.i("piscina",piscina.getNombre());
+
         }
 
         return null;
@@ -78,18 +81,30 @@ public class DescargaPiscina  extends AsyncTask<String,Void,Void> {
     @Override
     protected void onCancelled() {
         super.onCancelled();
+        piscinas = new ArrayList<>();
+
     }
 
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        adapter.notifyDataSetChanged();
     }
-
+    private boolean lugarRepetido(String nombre){
+        boolean flip = false;
+        for(LugarPiscina lugar : piscinas){
+            if(lugar.getNombre().equals(nombre)){
+                flip = true;
+            }
+        }
+        return flip;
+    }
     public ArrayList<LugarPiscina> getPiscinas() {
         return piscinas;
     }

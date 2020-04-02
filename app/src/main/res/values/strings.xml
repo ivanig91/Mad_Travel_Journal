@@ -4,4 +4,7 @@
     <string name="tab_text_1">Mercados</string>
     <string name="tab_text_2">Monumentos</string>
     <string name="tab_text_3">Actividades culturales</string>
+    <string name="tab_text_4">Museos</string>
+    <string name="tab_text_5">Piscinas municipales</string>
+    <string name="tab_text_6">información al turista</string>
 </resources>

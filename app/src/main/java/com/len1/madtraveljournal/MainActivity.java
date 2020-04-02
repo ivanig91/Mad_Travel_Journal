@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        /*
         DescargaPiscina desPiscina = new DescargaPiscina(piscinas);
         desPiscina.execute(Constantes.urlPiscinas);
         DescargaTurismo descargaTurismo = new DescargaTurismo(puntos);
@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         descargaMercados.execute(Constantes.urlMercados);*/
         //descargaMonumento desMonumento = new descargaMonumento(monumentos);
         //desMonumento.execute(Constantes.urlMonumentos);
-        DescargaMuseo descargaMuseo = new DescargaMuseo(museos);
-        descargaMuseo.execute(Constantes.urlMuseos);
+        // DescargaMuseo descargaMuseo = new DescargaMuseo(museos);
+        //descargaMuseo.execute(Constantes.urlMuseos);
+
 
 
 

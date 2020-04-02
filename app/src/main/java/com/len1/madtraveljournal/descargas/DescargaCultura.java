@@ -2,7 +2,6 @@ package com.len1.madtraveljournal.descargas;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.adapters.CulturaAdapter;
@@ -59,7 +58,7 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
                     if (cp >= Constantes.CP_MIN && cp <= Constantes.CP_MAX) {
                         flip = true;
                     }
-                    if(jsonArray.getJSONObject(i).has("location") && flip && jsonArray.getJSONObject(i).has("address")){
+                    if(jsonArray.getJSONObject(i).has("location") && flip && jsonArray.getJSONObject(i).has("address") && !lugarRepetido(jsonArray.getJSONObject(i).getString("title")) ){
                         id = jsonArray.getJSONObject(i).getString("id");
                         nombre = jsonArray.getJSONObject(i).getString("title");
                         descripcion = jsonArray.getJSONObject(i).getString("description");
@@ -107,4 +106,13 @@ public class DescargaCultura extends AsyncTask<String,Void,Void> {
         adapter.notifyDataSetChanged();
     }
 
+    private boolean lugarRepetido(String nombre){
+        boolean flip = false;
+        for(LugarCultura lugar : actividadesCultura){
+            if(lugar.getNombre().equals(nombre)){
+                flip = true;
+            }
+        }
+        return flip;
+    }
 }
