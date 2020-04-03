@@ -1,5 +1,7 @@
 package com.len1.madtraveljournal.lugares;
 
+import com.len1.madtraveljournal.R;
+
 public class LugarBar extends Lugar {
     private String fotoUrl;
     private String categoria;
@@ -7,6 +9,7 @@ public class LugarBar extends Lugar {
         super(id, nombre, descripcion, direccion, latitud, longitud);
         this.fotoUrl = fotoUrl;
         this.categoria = categoria;
+        this.setIcono(R.drawable.mercado);
     }
 
     public String getFotoUrl() {

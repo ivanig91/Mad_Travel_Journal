@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.R;
+import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.adapters.CulturaAdapter;
 import com.len1.madtraveljournal.adapters.LugarAdapter;
 import com.len1.madtraveljournal.adapters.MonumentoAdapter;
@@ -55,6 +56,7 @@ public class PlaceholderFragment extends Fragment {
     private DescargaMuseo desMuseo;
     private DescargaPiscina desPiscina;
     private DescargaTurismo desTurismo;
+    private DescargaBares desBar;
 
 
     private ArrayList<LugarCultura> actsCultura;
@@ -71,6 +73,7 @@ public class PlaceholderFragment extends Fragment {
     private MuseoAdapter adapterMuseo;
     private PiscinaAdapter adapterPiscina;
     private TurismoAdapter adapterTurismo;
+    private BarAdapter adapterBar;
 
     private PageViewModel pageViewModel;
 
@@ -105,6 +108,7 @@ public class PlaceholderFragment extends Fragment {
         adapterMuseo = new MuseoAdapter(getActivity().getApplicationContext(),museos);
         adapterPiscina = new PiscinaAdapter(getActivity().getApplicationContext(),piscinas);
         adapterTurismo = new TurismoAdapter(getActivity().getApplicationContext(),puntosTurismo);
+        adapterBar = new BarAdapter(getActivity().getApplicationContext(),bares);
     }
 
     @Override
@@ -127,17 +131,16 @@ public class PlaceholderFragment extends Fragment {
                     if(desMercados==null){
                         desMercados = new DescargaMercados(mercados,adapter);
                         desMercados.execute();
-                        DescargaBares desBar = new DescargaBares(bares);
-                        desBar.execute();
+
                     }
                 }
                 if(s.equals("2")){
 
-                    listView.setAdapter(adapterMonumento);
-                    adapterMonumento.notifyDataSetChanged();
-                    if(desMonumento==null){
-                        desMonumento = new descargaMonumento(monumentos,adapterMonumento);
-                        desMonumento.execute();
+                    listView.setAdapter(adapterBar);
+                    adapterBar.notifyDataSetChanged();
+                    if(desBar==null){
+                        desBar = new DescargaBares(bares,adapterBar);
+                        desBar.execute();
                     }
                 }
                 if(s.equals("3")){

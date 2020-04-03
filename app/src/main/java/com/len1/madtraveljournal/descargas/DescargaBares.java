@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.lugares.LugarBar;
 
 import org.w3c.dom.Document;
@@ -24,9 +25,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class DescargaBares extends AsyncTask<String,Void,Void> {
     private ArrayList<LugarBar> listaBares;
+    private BarAdapter adapter;
 
-    public DescargaBares(ArrayList<LugarBar> listaBares) {
+    public DescargaBares(ArrayList<LugarBar> listaBares, BarAdapter adapter) {
         this.listaBares = listaBares;
+        this.adapter = adapter;
     }
 
     @Override
@@ -77,9 +80,8 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
                             categoria = elementoItem.getTextContent();
                         }
                     }
-                    //categoria = element.getElementsByTagName("item").item(3).getTextContent();
                     bar = new LugarBar(id,nombre,descripcion,direccion,latitud,longitud,fotoUrl,categoria);
-                    Log.i("desc",categoria);
+
                     listaBares.add(bar);
 
                 }
@@ -106,12 +108,12 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
-        //adapter.notifydata
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        //adapter.notify;
+        adapter.notifyDataSetChanged();
     }
 }
