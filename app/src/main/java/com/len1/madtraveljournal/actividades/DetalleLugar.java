@@ -39,7 +39,6 @@ public class DetalleLugar extends AppCompatActivity {
         bar = (LugarBar) intent.getSerializableExtra("bar");
         // para tener el url de la foto se utiliza el getFotoUrl
         //El URL de la foto tiene el siguiente formato: http://www.esmadrid.com/sites/default/files/recursosturisticos/noche/blackhaus_4.jpg
-
         DescargaFoto deFoto = new DescargaFoto();
         deFoto.execute(bar.getFotoUrl());
     }
@@ -59,6 +58,7 @@ public class DetalleLugar extends AppCompatActivity {
                 BufferedInputStream buff = new BufferedInputStream(input);
                 Bitmap elBitMap = BitmapFactory.decodeStream(buff);
                 if(elBitMap==null){
+
                     Log.i("bt","el bitmap es nulo");
                 }
                 return elBitMap;
