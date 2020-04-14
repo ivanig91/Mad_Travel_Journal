@@ -1,10 +1,12 @@
 package com.len1.madtraveljournal.fragments.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.R;
+import com.len1.madtraveljournal.actividades.DetalleLugar;
 import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.adapters.CulturaAdapter;
 import com.len1.madtraveljournal.adapters.LugarAdapter;
@@ -103,7 +106,7 @@ public class PlaceholderFragment extends Fragment {
         bares = new ArrayList<>();
 
         adapter = new  LugarAdapter(getActivity().getApplicationContext(),mercados);
-        adapterMonumento = new MonumentoAdapter(getActivity().getApplicationContext(),monumentos);
+
         adapterCultura = new CulturaAdapter(getActivity().getApplicationContext(),actsCultura);
         adapterMuseo = new MuseoAdapter(getActivity().getApplicationContext(),museos);
         adapterPiscina = new PiscinaAdapter(getActivity().getApplicationContext(),piscinas);
@@ -125,22 +128,20 @@ public class PlaceholderFragment extends Fragment {
 
                 assert s != null;
                 if(s.equals("1")){
+                    listView.setAdapter(adapterBar);
+                    adapterBar.notifyDataSetChanged();
+                    if(desBar==null){
+                        desBar = new DescargaBares(bares,adapterBar);
+                        desBar.execute();
+                    }
+                }
+                if(s.equals("2")){
 
                     listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     if(desMercados==null){
                         desMercados = new DescargaMercados(mercados,adapter);
                         desMercados.execute();
-
-                    }
-                }
-                if(s.equals("2")){
-
-                    listView.setAdapter(adapterBar);
-                    adapterBar.notifyDataSetChanged();
-                    if(desBar==null){
-                        desBar = new DescargaBares(bares,adapterBar);
-                        desBar.execute();
                     }
                 }
                 if(s.equals("3")){
@@ -177,6 +178,17 @@ public class PlaceholderFragment extends Fragment {
                         desTurismo.execute();
                     }
                 }
+
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LugarBar bar = (LugarBar) parent.getItemAtPosition(position);
+                Intent intent = new Intent(getContext(), DetalleLugar.class);
+                intent.putExtra("bar",bar);
+                startActivity(intent);
 
             }
         });

@@ -2,7 +2,9 @@ package com.len1.madtraveljournal.lugares;
 
 import android.media.Image;
 
-public class Lugar {
+import java.io.Serializable;
+
+public class Lugar implements Serializable {
     private String id;
     private String nombre;
     private String descripcion;

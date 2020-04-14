@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.len1.madtraveljournal.R;
-import com.len1.madtraveljournal.lugares.LugarMercado;
 import com.len1.madtraveljournal.lugares.LugarMonumento;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class MonumentoAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.lvlugar, null);
 
             holder = new ViewHolder();
-            holder.icono = (ImageView) convertView.findViewById(R.id.ivFoto);
+            holder.icono = (ImageView) convertView.findViewById(R.id.ivFoto3);
             holder.nombre = (TextView) convertView.findViewById(R.id.tvNombrLugar);
             holder.calle = (TextView) convertView.findViewById(R.id.tvCalleLugar);
 

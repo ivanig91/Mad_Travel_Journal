@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.len1.madtraveljournal.R;
-import com.len1.madtraveljournal.fragments.ui.main.PlaceholderFragment;
-import com.len1.madtraveljournal.lugares.Lugar;
 import com.len1.madtraveljournal.lugares.LugarMercado;
 
 import java.util.ArrayList;
@@ -56,7 +54,7 @@ public class LugarAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.lvlugar, null);
 
             holder = new ViewHolder();
-            holder.icono = (ImageView) convertView.findViewById(R.id.ivFoto);
+            holder.icono = (ImageView) convertView.findViewById(R.id.ivFoto3);
             holder.nombre = (TextView) convertView.findViewById(R.id.tvNombrLugar);
             holder.calle = (TextView) convertView.findViewById(R.id.tvCalleLugar);
 
