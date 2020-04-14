@@ -37,13 +37,14 @@ public class DetalleLugar extends AppCompatActivity {
         fotoLugar = findViewById(R.id.ivFoto3);
         Intent intent = getIntent();
         bar = (LugarBar) intent.getSerializableExtra("bar");
-        // para tener el url de la foto se utiliza el getFotoUrl abajo
+        // para tener el url de la foto se utiliza el getFotoUrl
+        //El URL de la foto tiene el siguiente formato: http://www.esmadrid.com/sites/default/files/recursosturisticos/noche/blackhaus_4.jpg
 
         DescargaFoto deFoto = new DescargaFoto();
         deFoto.execute(bar.getFotoUrl());
     }
 
-
+    //Clase que gestiona la descarga de la foto
     private class DescargaFoto extends AsyncTask{
         HttpURLConnection connection;
         @Override
