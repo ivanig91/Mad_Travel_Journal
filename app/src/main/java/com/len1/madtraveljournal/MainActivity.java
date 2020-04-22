@@ -2,6 +2,7 @@ package com.len1.madtraveljournal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         puntos = new ArrayList<>();
         descargaTarea = findViewById(R.id.descargaTarea);
         descargaTarea.setOnClickListener(this);
+
     }
 
     @Override
