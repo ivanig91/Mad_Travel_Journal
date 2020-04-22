@@ -113,6 +113,9 @@ public class PlaceholderFragment extends Fragment {
         adapterTurismo = new TurismoAdapter(getActivity().getApplicationContext(),puntosTurismo);
         adapterBar = new BarAdapter(getActivity().getApplicationContext(),bares);
     }
+    private void rellenaArrays(){
+
+    }
 
     @Override
     public View onCreateView(

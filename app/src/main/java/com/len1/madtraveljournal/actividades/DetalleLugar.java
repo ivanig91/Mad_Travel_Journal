@@ -44,13 +44,11 @@ public class DetalleLugar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_lugar);
         fotoLugar = findViewById(R.id.ivFoto3);
-        tvNombreBar = findViewById(R.id.tvNombreBar);
+
         tvDescripcionBar = findViewById(R.id.tvDescripcionBar);
         Intent intent = getIntent();
         bar = (LugarBar) intent.getSerializableExtra("bar");
-        // para tener el url de la foto se utiliza el getFotoUrl
-        //El URL de la foto tiene el siguiente formato: http://www.esmadrid.com/sites/default/files/recursosturisticos/noche/blackhaus_4.jpg
-        tvNombreBar.setText(bar.getNombre());
+        this.setTitle(bar.getNombre());
         tvDescripcionBar.setText(bar.getDescripcion());
         initImageLoader(this.getApplicationContext());
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -58,7 +56,6 @@ public class DetalleLugar extends AppCompatActivity {
         imageLoader.displayImage(String.valueOf(myURi),fotoLugar);
 
     }
-
 
 
     public static void initImageLoader(Context context) {
@@ -78,41 +75,6 @@ public class DetalleLugar extends AppCompatActivity {
 
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
-    }
-
-    //Clase que gestiona la descarga de la foto
-    private class DescargaFoto extends AsyncTask{
-    
-        @Override
-        protected Object doInBackground(Object[] urls) {
-            Bitmap elBitMap = null;
-            try {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = false;
-                String src = (String) urls[0];
-
-                InputStream input = new java.net.URL(src).openStream();
-                if(input==null){
-                    Log.i("inputNULL","el input es nulo");
-                }
-                elBitMap = BitmapFactory.decodeStream(input,null,options);
-                if(elBitMap==null){
-                    Log.i("bt","el bitmap es nulo");
-                }
-                return elBitMap;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }finally {
-               
-            }
-            return elBitMap;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            fotoLugar.setImageBitmap((Bitmap) o);
-        }
     }
 
 }

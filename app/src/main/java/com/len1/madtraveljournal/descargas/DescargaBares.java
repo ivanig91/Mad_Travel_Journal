@@ -6,6 +6,7 @@ import android.util.Log;
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.lugares.LugarBar;
+import com.nostra13.universalimageloader.utils.L;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -80,7 +81,8 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
                             categoria = elementoItem.getTextContent();
                         }
                     }
-                    bar = new LugarBar(id,nombre,descripcion,direccion,latitud,longitud,fotoUrl,categoria);
+
+                    bar = new LugarBar(id,Constantes.arreglaStrings(nombre),Constantes.arreglaStrings(descripcion),direccion,latitud,longitud,fotoUrl,categoria);
 
                     listaBares.add(bar);
 
@@ -116,4 +118,5 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
         super.onPostExecute(aVoid);
         adapter.notifyDataSetChanged();
     }
+
 }
