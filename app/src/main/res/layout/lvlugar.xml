@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/ivFoto3"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="66dp"
         android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
@@ -18,15 +18,15 @@
             android:id="@+id/tvNombrLugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="3dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="18sp" />
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:textSize="17dp" />
 
         <TextView
             android:id="@+id/tvCalleLugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="3dp"
+            android:paddingLeft="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="12sp" />
 

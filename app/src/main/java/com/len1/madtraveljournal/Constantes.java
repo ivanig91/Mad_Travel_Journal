@@ -10,53 +10,35 @@ public class Constantes {
     public final static String urlPiscinas = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=210227-0-piscinas-publicas&mgmtid=3d481f900c6e9410VgnVCM1000000b205a0aRCRD&preview=full";
     public final static String urlTurismo = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=201105-0-informacion-turismo&mgmtid=ee5e692e74c63410VgnVCM2000000c205a0aRCRD&preview=full";
     public final static String urlBares = "https://www.esmadrid.com/opendata/noche_v1_es.xml";
+    public final static String CAT_MUSICA_DIRECTO = "Musica directo";
+    public final static String CAT_FLAMENCO = "Flamenco";
+    public final static String CAT_TERRAZAS = "Terrazas";
+    public final static String CAT_DISCOTECA = "Discoteca";
+    public final static String CAT_BAR_DE_COPAS= "Bar de copas";
+    public final static String CAT_BARES="Bares";
+    public final static String CAT_OTROS ="Otros";
+    public final static String CAT_CAFES= "Cafés";
+    public final static String CAT_KARAOKE="Karaokes";
+    public final static String CAT_COCTELES="Coctelerías";
+    public final static String CAT_COHOCO = "Chocolaterías";
     public final static String NODO_MONUMENTOS = "@graph";
     public final static int CP_MIN =28000;
     public final static int CP_MAX = 28055;
 
     public static String arreglaStrings(String string){
-        final String LA_P="<p>";
-        final String LOCURA="<!-- x-tinymce/html -->";
-        final String LA_PBARRA ="</p>";
-        final String STRONG ="<strong>";
-        final String STRONG_BARRA = "</strong>";
-        final String LA_A ="<a>";
-        final String LA_ABARRA="</a>";
-        final String LA_B = "<b>";
-        final String LA_BBARRA = "</b>";
-        final String NBSP = "&nbsp;";
-        final String SUP = "&sup";
-        final String LA_H2 ="<h2>";
-        final String LA_H2B = "</h2>";
-        final String SPAN = "<span>";
-        final String SPANBARRA="</span>";
-        final String NUM39 = "&#39;";
-        final String BR = "<br>";
-        final String BRB = "</br>";
-        final String EM = "<em>";
-        final String EMB = "</em>";
-        final String RSQUO = "&rsquo;";
-        final String LSQUO = "&lsquo;";
-        final String QUOT = "&quot;";
-        final String BULL = "&bull;";
-        final String H4 = "<h4>";
-        final String H4B = "</h4>";
-        final String BR_ES= "<br />";
-        final String ACUTES = "acute;";
-        final String HR = "<hr>";
-        final String HRB = "</hr>";
-        final String HRBE = "<hr />";
-        final String AMP = "amp;";
-        final String TILDE = "tilde;";
-        final String LDQUO = "&ldquo";
-        final String RDQUO = "rdquo;";
-        final String H3 = "<h3>";
-        final String H3B = "</h3>";
-        final String HELIP = "&hellip;";
-        final String UML = "uml;";
-        final String CIRC = "circ;";
-        final String DASH = "dash;";
-
+        final String LA_P="<p>",LOCURA="<!-- x-tinymce/html -->", LA_PBARRA ="</p>", STRONG ="<strong>",
+                STRONG_BARRA = "</strong>", LA_A ="<a>", LA_ABARRA="</a>", LA_B = "<b>", LA_BBARRA = "</b>",
+                NBSP = "&nbsp;", SUP = "&sup", LA_H2 ="<h2>", LA_H2B = "</h2>", SPAN = "<span>",
+                SPANBARRA="</span>", NUM39 = "&#39;", BR = "<br>", BRB = "</br>", EM = "<em>",
+                EMB = "</em>", RSQUO = "&rsquo;", LSQUO = "&lsquo;", QUOT = "&quot;", BULL = "&bull;",
+                H4 = "<h4>", H4B = "</h4>", BR_ES= "<br />", ACUTES = "acute;", HR = "<hr>", HRB = "</hr>",
+                HRBE = "<hr />", AMP = "amp;", TILDE = "tilde;", LDQUO = "&ldquo", RDQUO = "rdquo;",
+                H3 = "<h3>", H3B = "</h3>", HELIP = "&hellip;", UML = "uml;", CIRC = "circ;",
+                LOCURA_2="<p class=\"heading-2\">",
+                DASH = "dash;";
+        if(string.contains(LOCURA_2)){
+            string = string.replaceAll(LOCURA_2,"");
+        }
         if(string.contains(DASH)){
             string = string.replaceAll(DASH,"");
             string = string.replaceAll("&","");

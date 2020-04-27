@@ -13,11 +13,13 @@ import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
 import com.len1.madtraveljournal.adapters.BarAdapter;
@@ -34,6 +36,7 @@ import com.len1.madtraveljournal.descargas.DescargaMuseo;
 import com.len1.madtraveljournal.descargas.DescargaPiscina;
 import com.len1.madtraveljournal.descargas.DescargaTurismo;
 import com.len1.madtraveljournal.descargas.descargaMonumento;
+import com.len1.madtraveljournal.lugares.Lugar;
 import com.len1.madtraveljournal.lugares.LugarBar;
 import com.len1.madtraveljournal.lugares.LugarCultura;
 import com.len1.madtraveljournal.lugares.LugarMercado;
@@ -52,32 +55,10 @@ import java.util.ArrayList;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private DescargaMercados desMercados;
-    private descargaMonumento desMonumento;
-    private DescargaCultura desCultura;
-    private DescargaMuseo desMuseo;
-    private DescargaPiscina desPiscina;
-    private DescargaTurismo desTurismo;
     private DescargaBares desBar;
 
 
-    private ArrayList<LugarCultura> actsCultura;
-    private ArrayList<LugarMercado> mercados;
-    private ArrayList<LugarMonumento> monumentos;
-    private ArrayList<LugarMuseo> museos;
-    private ArrayList<LugarPiscina> piscinas;
-    private ArrayList<LugarTurismo> puntosTurismo;
-    private ArrayList<LugarBar> bares;
-
-    private LugarAdapter adapter;
-    private MonumentoAdapter adapterMonumento;
-    private CulturaAdapter adapterCultura;
-    private MuseoAdapter adapterMuseo;
-    private PiscinaAdapter adapterPiscina;
-    private TurismoAdapter adapterTurismo;
-    private BarAdapter adapterBar;
-
+    private ListasYAdapters listasYAdapters;
     private PageViewModel pageViewModel;
 
     public static PlaceholderFragment newInstance(int index) {
@@ -93,28 +74,16 @@ public class PlaceholderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
+
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
-        mercados = new ArrayList<>();
-        monumentos = new ArrayList<>();
-        actsCultura = new ArrayList<>();
-        museos = new ArrayList<>();
-        piscinas = new ArrayList<>();
-        puntosTurismo = new ArrayList<>();
-        bares = new ArrayList<>();
 
-        adapter = new  LugarAdapter(getActivity().getApplicationContext(),mercados);
+        listasYAdapters = new ListasYAdapters(getActivity().getApplicationContext());
 
-        adapterCultura = new CulturaAdapter(getActivity().getApplicationContext(),actsCultura);
-        adapterMuseo = new MuseoAdapter(getActivity().getApplicationContext(),museos);
-        adapterPiscina = new PiscinaAdapter(getActivity().getApplicationContext(),piscinas);
-        adapterTurismo = new TurismoAdapter(getActivity().getApplicationContext(),puntosTurismo);
-        adapterBar = new BarAdapter(getActivity().getApplicationContext(),bares);
-    }
-    private void rellenaArrays(){
-
+        desBar = new DescargaBares(listasYAdapters);
+        desBar.execute();
     }
 
     @Override
@@ -128,58 +97,30 @@ public class PlaceholderFragment extends Fragment {
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-
                 assert s != null;
                 if(s.equals("1")){
-                    listView.setAdapter(adapterBar);
-                    adapterBar.notifyDataSetChanged();
-                    if(desBar==null){
-                        desBar = new DescargaBares(bares,adapterBar);
-                        desBar.execute();
-                    }
+                   listView.setAdapter(listasYAdapters.getAdapterCoctelerias());
+                   listasYAdapters.getAdapterCoctelerias().notifyDataSetChanged();
                 }
                 if(s.equals("2")){
-
-                    listView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    if(desMercados==null){
-                        desMercados = new DescargaMercados(mercados,adapter);
-                        desMercados.execute();
-                    }
+                    listView.setAdapter(listasYAdapters.getAdapterDiscoteca());
+                    listasYAdapters.getAdapterDiscoteca().notifyDataSetChanged();
                 }
                 if(s.equals("3")){
-
-                    listView.setAdapter(adapterCultura);
-                    adapterCultura.notifyDataSetChanged();
-                    if(desCultura==null){
-                        desCultura = new DescargaCultura(actsCultura,adapterCultura);
-                        desCultura.execute();
-                    }
-
+                    listView.setAdapter(listasYAdapters.getAdapterMusicaDirecto());
+                    listasYAdapters.getAdapterMusicaDirecto().notifyDataSetChanged();
                 }
                 if(s.equals("4")){
-                    listView.setAdapter(adapterMuseo);
-                    adapterMuseo.notifyDataSetChanged();
-                    if(desMuseo==null){
-                        desMuseo = new DescargaMuseo(museos,adapterMuseo);
-                        desMuseo.execute();
-                    }
+                    listView.setAdapter(listasYAdapters.getAdapterFlamenco());
+                    listasYAdapters.getAdapterFlamenco().notifyDataSetChanged();
                 }
                 if(s.equals("5")){
-                    listView.setAdapter(adapterPiscina);
-                    adapterPiscina.notifyDataSetChanged();
-                    if(desPiscina==null){
-                        desPiscina = new DescargaPiscina(piscinas,adapterPiscina);
-                        desPiscina.execute();
-                    }
+                    listView.setAdapter(listasYAdapters.getAdapterKaraoke());
+                    listasYAdapters.getAdapterKaraoke().notifyDataSetChanged();
                 }
                 if(s.equals("6")){
-                    listView.setAdapter(adapterTurismo);
-                    adapterTurismo.notifyDataSetChanged();
-                    if(desTurismo==null){
-                        desTurismo = new DescargaTurismo(puntosTurismo,adapterTurismo);
-                        desTurismo.execute();
-                    }
+                    listView.setAdapter(listasYAdapters.getAdapterOtros());
+                    listasYAdapters.getAdapterOtros().notifyDataSetChanged();
                 }
 
             }

@@ -4,7 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.ListasYAdapters;
+import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.adapters.BarAdapter;
+import com.len1.madtraveljournal.fragments.ui.main.PlaceholderFragment;
 import com.len1.madtraveljournal.lugares.LugarBar;
 import com.nostra13.universalimageloader.utils.L;
 
@@ -25,12 +28,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class DescargaBares extends AsyncTask<String,Void,Void> {
-    private ArrayList<LugarBar> listaBares;
-    private BarAdapter adapter;
 
-    public DescargaBares(ArrayList<LugarBar> listaBares, BarAdapter adapter) {
-        this.listaBares = listaBares;
-        this.adapter = adapter;
+    private ListasYAdapters listasYAdapters;
+    public DescargaBares(ListasYAdapters listasYAdapters) {
+
+        this.listasYAdapters = listasYAdapters;
+
     }
 
     @Override
@@ -57,13 +60,9 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
             String fotoUrl;
             String categoria ="";
             LugarBar bar = null;
-            String probando;
-
 
             for(int i =0; i<listaNodos.getLength();i++){
                 Node nodo = listaNodos.item(i);
-
-
                 if(nodo.getNodeType() ==Node.ELEMENT_NODE){
                     Element element = (Element) nodo;
                     id = element.getAttribute("id");
@@ -82,9 +81,11 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
                         }
                     }
 
-                    bar = new LugarBar(id,Constantes.arreglaStrings(nombre),Constantes.arreglaStrings(descripcion),direccion,latitud,longitud,fotoUrl,categoria);
-
-                    listaBares.add(bar);
+                    nombre = Constantes.arreglaStrings(nombre);
+                    descripcion = Constantes.arreglaStrings(descripcion);
+                    bar = new LugarBar(id,nombre,descripcion,direccion,latitud,longitud,fotoUrl,
+                            categoria);
+                    calsificarCategoria(bar);
 
                 }
             }
@@ -100,23 +101,49 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
         }
         return null;
     }
+    private void calsificarCategoria(LugarBar bar){
+        String categoria = bar.getCategoria();
+        if(categoria.equals(Constantes.CAT_BAR_DE_COPAS) ||
+                categoria.equals(Constantes.CAT_BARES)||
+                categoria.equals(Constantes.CAT_TERRAZAS) ||
+                categoria.equals(Constantes.CAT_COCTELES)){
+            bar.setIcono(R.drawable.copcan);
+            listasYAdapters.getCocteleriasTerrazasYBares().add(bar);
+        }else if(categoria.equals(Constantes.CAT_FLAMENCO)){
+            listasYAdapters.getFlamenco().add(bar);
+        }else if (categoria.equals(Constantes.CAT_MUSICA_DIRECTO)
+        ){
+            bar.setIcono(R.drawable.mdriect);
+            listasYAdapters.getMusicaDirecto().add(bar);
+        }else if (categoria.equals(Constantes.CAT_KARAOKE)){
+            listasYAdapters.getKaraoke().add(bar);
+        }else if(categoria.equals(Constantes.CAT_DISCOTECA)){
+            bar.setIcono(R.drawable.disco);
+            listasYAdapters.getDiscoteca().add(bar);
+        }else{
+            listasYAdapters.getOtros().add(bar);
+        }
+    }
+
 
     @Override
     protected void onCancelled() {
         super.onCancelled();
-        listaBares = new ArrayList<>();
+
     }
 
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
-        adapter.notifyDataSetChanged();
+
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        adapter.notifyDataSetChanged();
+        listasYAdapters.notificarAdapters();
+
+
     }
 
 }
