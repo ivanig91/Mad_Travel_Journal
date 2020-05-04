@@ -2,51 +2,24 @@ package com.len1.madtraveljournal.fragments.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
-import com.len1.madtraveljournal.adapters.BarAdapter;
-import com.len1.madtraveljournal.adapters.CulturaAdapter;
-import com.len1.madtraveljournal.adapters.LugarAdapter;
-import com.len1.madtraveljournal.adapters.MonumentoAdapter;
-import com.len1.madtraveljournal.adapters.MuseoAdapter;
-import com.len1.madtraveljournal.adapters.PiscinaAdapter;
-import com.len1.madtraveljournal.adapters.TurismoAdapter;
 import com.len1.madtraveljournal.descargas.DescargaBares;
-import com.len1.madtraveljournal.descargas.DescargaCultura;
-import com.len1.madtraveljournal.descargas.DescargaMercados;
-import com.len1.madtraveljournal.descargas.DescargaMuseo;
-import com.len1.madtraveljournal.descargas.DescargaPiscina;
-import com.len1.madtraveljournal.descargas.DescargaTurismo;
-import com.len1.madtraveljournal.descargas.descargaMonumento;
-import com.len1.madtraveljournal.lugares.Lugar;
 import com.len1.madtraveljournal.lugares.LugarBar;
-import com.len1.madtraveljournal.lugares.LugarCultura;
-import com.len1.madtraveljournal.lugares.LugarMercado;
-import com.len1.madtraveljournal.lugares.LugarMonumento;
-import com.len1.madtraveljournal.lugares.LugarMuseo;
-import com.len1.madtraveljournal.lugares.LugarPiscina;
-import com.len1.madtraveljournal.lugares.LugarTurismo;
-
-
-import java.util.ArrayList;
 
 
 /**
@@ -82,7 +55,7 @@ public class PlaceholderFragment extends Fragment {
 
         listasYAdapters = new ListasYAdapters(getActivity().getApplicationContext());
 
-        desBar = new DescargaBares(listasYAdapters);
+        desBar = new DescargaBares(listasYAdapters,getActivity().getApplicationContext());
         desBar.execute();
     }
 

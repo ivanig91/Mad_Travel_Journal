@@ -2,6 +2,7 @@ package com.len1.madtraveljournal.adapters;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.len1.madtraveljournal.R;
+import com.len1.madtraveljournal.descargas.DescargaFoto;
 import com.len1.madtraveljournal.lugares.LugarBar;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
@@ -18,6 +22,7 @@ public class BarAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<LugarBar> listaLugar;
     private LayoutInflater inflater;
+    LugarBar lugar=null;
 
     public BarAdapter(Context context, ArrayList<LugarBar> listaLugar) {
         this.context = context;
@@ -59,17 +64,22 @@ public class BarAdapter extends BaseAdapter {
             holder.calle = (TextView) convertView.findViewById(R.id.tvCalleLugar);
 
             convertView.setTag(holder);
-        }
-
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        LugarBar lugar = listaLugar.get(position);
-        holder.icono.setImageResource(lugar.getIcono());
+        lugar = listaLugar.get(position);
         holder.nombre.setText(lugar.getNombre());
         holder.calle.setText(lugar.getDireccion());
+        //holder.icono.setImageResource(lugar.getIcono());
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
+        Uri myURi = Uri.parse(lugar.getFotoUrl());
+        imageLoader.displayImage(String.valueOf(myURi),holder.icono);
+
+
 
         return convertView;
     }
+
 }

@@ -1,7 +1,11 @@
 package com.len1.madtraveljournal.descargas;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.ListasYAdapters;
@@ -9,6 +13,11 @@ import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.fragments.ui.main.PlaceholderFragment;
 import com.len1.madtraveljournal.lugares.LugarBar;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.utils.L;
 
 import org.w3c.dom.Document;
@@ -20,6 +29,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -30,8 +40,10 @@ import javax.xml.parsers.ParserConfigurationException;
 public class DescargaBares extends AsyncTask<String,Void,Void> {
 
     private ListasYAdapters listasYAdapters;
-    public DescargaBares(ListasYAdapters listasYAdapters) {
-
+    private Context context;
+    LugarBar bar = null;
+    public DescargaBares(ListasYAdapters listasYAdapters,Context context) {
+        this.context = context;
         this.listasYAdapters = listasYAdapters;
 
     }
@@ -59,7 +71,7 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
             String longitud;
             String fotoUrl;
             String categoria ="";
-            LugarBar bar = null;
+
 
             for(int i =0; i<listaNodos.getLength();i++){
                 Node nodo = listaNodos.item(i);
@@ -80,13 +92,11 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
                             categoria = elementoItem.getTextContent();
                         }
                     }
-
                     nombre = Constantes.arreglaStrings(nombre);
                     descripcion = Constantes.arreglaStrings(descripcion);
                     bar = new LugarBar(id,nombre,descripcion,direccion,latitud,longitud,fotoUrl,
-                            categoria);
+                            categoria,context);
                     calsificarCategoria(bar);
-
                 }
             }
 
@@ -124,6 +134,7 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
             listasYAdapters.getOtros().add(bar);
         }
     }
+
 
 
     @Override

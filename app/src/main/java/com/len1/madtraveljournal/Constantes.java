@@ -3,12 +3,7 @@ package com.len1.madtraveljournal;
 import android.graphics.Bitmap;
 
 public class Constantes {
-    public final static String urlMonumentos ="https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=300356-0-monumentos-ciudad-madrid&mgmtid=eb8e993ae322b610VgnVCM1000001d4a900aRCRD&preview=full";
-    public final static String urlMercados = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=200967-0-mercados&mgmtid=b9f7530479243410VgnVCM1000000b205a0aRCRD&preview=full";
-    public final static String urlCultura = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=206974-0-agenda-eventos-culturales-100&mgmtid=6c0b6d01df986410VgnVCM2000000c205a0aRCRD&preview=full";
-    public final static String urlMuseos = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=201132-0-museos&mgmtid=118f2fdbecc63410VgnVCM1000000b205a0aRCRD&preview=full";
-    public final static String urlPiscinas = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=210227-0-piscinas-publicas&mgmtid=3d481f900c6e9410VgnVCM1000000b205a0aRCRD&preview=full";
-    public final static String urlTurismo = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=201105-0-informacion-turismo&mgmtid=ee5e692e74c63410VgnVCM2000000c205a0aRCRD&preview=full";
+
     public final static String urlBares = "https://www.esmadrid.com/opendata/noche_v1_es.xml";
     public final static String CAT_MUSICA_DIRECTO = "Musica directo";
     public final static String CAT_FLAMENCO = "Flamenco";
@@ -22,20 +17,28 @@ public class Constantes {
     public final static String CAT_COCTELES="Coctelerías";
     public final static String CAT_COHOCO = "Chocolaterías";
     public final static String NODO_MONUMENTOS = "@graph";
+    public final static String TABLA_USUARIOS = "Usuarios";
     public final static int CP_MIN =28000;
     public final static int CP_MAX = 28055;
 
     public static String arreglaStrings(String string){
         final String LA_P="<p>",LOCURA="<!-- x-tinymce/html -->", LA_PBARRA ="</p>", STRONG ="<strong>",
                 STRONG_BARRA = "</strong>", LA_A ="<a>", LA_ABARRA="</a>", LA_B = "<b>", LA_BBARRA = "</b>",
-                NBSP = "&nbsp;", SUP = "&sup", LA_H2 ="<h2>", LA_H2B = "</h2>", SPAN = "<span>",
+                NBSP = "nbsp;", SUP = "&sup", LA_H2 ="<h2>", LA_H2B = "</h2>", SPAN = "<span>",
                 SPANBARRA="</span>", NUM39 = "&#39;", BR = "<br>", BRB = "</br>", EM = "<em>",
                 EMB = "</em>", RSQUO = "&rsquo;", LSQUO = "&lsquo;", QUOT = "&quot;", BULL = "&bull;",
                 H4 = "<h4>", H4B = "</h4>", BR_ES= "<br />", ACUTES = "acute;", HR = "<hr>", HRB = "</hr>",
                 HRBE = "<hr />", AMP = "amp;", TILDE = "tilde;", LDQUO = "&ldquo", RDQUO = "rdquo;",
                 H3 = "<h3>", H3B = "</h3>", HELIP = "&hellip;", UML = "uml;", CIRC = "circ;",
-                LOCURA_2="<p class=\"heading-2\">",
-                DASH = "dash;";
+                LOCURA_2="<p class=\"heading-2\">", DASH = "dash;",SUP2 ="<sup>",LOCURA_3="<p class=\"heading-3\">";
+
+        if(string.contains(LOCURA_3)){
+            string = string.replaceAll(LOCURA_3,"");
+        }
+        if(string.contains(SUP2)){
+            string = string.replaceAll(SUP2,"");
+            string = string.replaceAll("</sup>","");
+        }
         if(string.contains(LOCURA_2)){
             string = string.replaceAll(LOCURA_2,"");
         }
@@ -141,6 +144,7 @@ public class Constantes {
         }
         if(string.contains(NBSP)){
             string = string.replaceAll(NBSP,"");
+            string = string.replaceAll("&","");
         }
         if(string.contains(SUP)){
             string = string.replaceAll(SUP,"");
