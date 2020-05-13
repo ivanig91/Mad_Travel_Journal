@@ -18,6 +18,10 @@ public class Constantes {
     public final static String CAT_COHOCO = "Chocolaterías";
     public final static String NODO_MONUMENTOS = "@graph";
     public final static String TABLA_USUARIOS = "Usuarios";
+    public final static String MENSAJE_DATOS_VACIOS="Debe rellenar todos los campos para continuar";
+    public final static String GENERO_HOM="H";
+    public final static String GENERO_LGBT="LGBT";
+    public final static String GENERO_MUJ="M";
     public final static int CP_MIN =28000;
     public final static int CP_MAX = 28055;
 

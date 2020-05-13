@@ -1,4 +1,4 @@
-package com.len1.madtraveljournal.fragments.ui.main;
+package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;

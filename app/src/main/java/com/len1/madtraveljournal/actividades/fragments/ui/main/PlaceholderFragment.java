@@ -1,4 +1,4 @@
-package com.len1.madtraveljournal.fragments.ui.main;
+package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.len1.madtraveljournal.ClaseUsuario;
 import com.len1.madtraveljournal.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
@@ -33,9 +34,13 @@ public class PlaceholderFragment extends Fragment {
 
     private ListasYAdapters listasYAdapters;
     private PageViewModel pageViewModel;
+    private ClaseUsuario usuario;
 
-    public static PlaceholderFragment newInstance(int index) {
+
+
+    public  PlaceholderFragment newInstance(int index,ClaseUsuario usuario) {
         PlaceholderFragment fragment = new PlaceholderFragment();
+        this.usuario = usuario;
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -47,6 +52,7 @@ public class PlaceholderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
+
 
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -64,6 +70,8 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tabbed, container, false);
+        Intent intent = getActivity().getIntent();
+        usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
 
         final ListView listView = root.findViewById(R.id.lali1);
 
@@ -105,6 +113,7 @@ public class PlaceholderFragment extends Fragment {
                 LugarBar bar = (LugarBar) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getContext(), DetalleLugar.class);
                 intent.putExtra("bar",bar);
+                intent.putExtra("usuario",usuario);
                 startActivity(intent);
 
             }

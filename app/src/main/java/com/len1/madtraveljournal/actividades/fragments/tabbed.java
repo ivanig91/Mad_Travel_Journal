@@ -1,5 +1,6 @@
-package com.len1.madtraveljournal.fragments;
+package com.len1.madtraveljournal.actividades.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,24 +10,27 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
+import com.len1.madtraveljournal.ClaseUsuario;
 import com.len1.madtraveljournal.R;
-import com.len1.madtraveljournal.fragments.ui.main.SectionsPagerAdapter;
+import com.len1.madtraveljournal.actividades.fragments.ui.main.SectionsPagerAdapter;
 
 public class tabbed extends AppCompatActivity {
-
+    private ClaseUsuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        Intent in = getIntent();
+        usuario = (ClaseUsuario) in.getSerializableExtra("usuario");
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this,
+                getSupportFragmentManager(),usuario);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

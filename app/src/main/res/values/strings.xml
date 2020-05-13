@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mad Travel Journal</string>
+    <string name="app_name">MAD Pub Crawl</string>
     <string name="title_activity_tabbed">tabbed</string>
     <string name="tab_text_1">Cañas y Copas</string>
     <string name="tab_text_2">Discotecas</string>
@@ -10,4 +10,15 @@
     <string name="title_activity_info_lugar">InfoLugar</string>
     <string name="title_activity_detalle_lugar">DetalleLugar</string>
     <string name="descripcion">Descripcion</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_mapa">Map</string>
+    <string name="mapa">mapa</string>
 </resources>

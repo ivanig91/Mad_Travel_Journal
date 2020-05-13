@@ -1,4 +1,4 @@
-package com.len1.madtraveljournal.fragments.ui.main;
+package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
 import android.content.Context;
 
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.len1.madtraveljournal.ClaseUsuario;
 import com.len1.madtraveljournal.R;
 
 /**
@@ -15,13 +16,14 @@ import com.len1.madtraveljournal.R;
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
+    private ClaseUsuario usuario;
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3,R.string.tab_text_4,R.string.tab_text_5,R.string.tab_text_6};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public SectionsPagerAdapter(Context context, FragmentManager fm,ClaseUsuario usuario) {
         super(fm);
+        this.usuario = usuario;
         mContext = context;
     }
 
@@ -29,7 +31,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        PlaceholderFragment fragment = new PlaceholderFragment();
+
+        return fragment.newInstance(position + 1,usuario);
     }
 
     @Nullable

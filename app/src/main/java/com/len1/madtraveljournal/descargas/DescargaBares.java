@@ -1,24 +1,12 @@
 package com.len1.madtraveljournal.descargas;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 
 import com.len1.madtraveljournal.Constantes;
 import com.len1.madtraveljournal.ListasYAdapters;
 import com.len1.madtraveljournal.R;
-import com.len1.madtraveljournal.adapters.BarAdapter;
-import com.len1.madtraveljournal.fragments.ui.main.PlaceholderFragment;
 import com.len1.madtraveljournal.lugares.LugarBar;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.utils.L;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,9 +17,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

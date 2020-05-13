@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.len1.madtraveljournal.R;
-import com.len1.madtraveljournal.descargas.DescargaFoto;
+
 import com.len1.madtraveljournal.lugares.LugarBar;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -71,11 +71,7 @@ public class BarAdapter extends BaseAdapter {
         lugar = listaLugar.get(position);
         holder.nombre.setText(lugar.getNombre());
         holder.calle.setText(lugar.getDireccion());
-        //holder.icono.setImageResource(lugar.getIcono());
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
-        Uri myURi = Uri.parse(lugar.getFotoUrl());
-        imageLoader.displayImage(String.valueOf(myURi),holder.icono);
+        Picasso.get().load(lugar.getFotoUrl()).into(holder.icono);
 
 
 

@@ -1,15 +1,9 @@
 package com.len1.madtraveljournal.lugares;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.len1.madtraveljournal.R;
-import com.len1.madtraveljournal.descargas.DescargaFoto;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
 
 public class LugarBar extends Lugar {
     private String fotoUrl;
