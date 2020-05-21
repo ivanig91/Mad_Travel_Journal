@@ -5,166 +5,193 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actividades.NuevoUsuario">
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stretchColumns="0,1">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0,1">
 
-            <ImageView
-                android:id="@+id/imageView"
-                app:srcCompat="@drawable/p18"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="30dp"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
 
-            <androidx.cardview.widget.CardView
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginEnd="24dp"
-                app:cardBackgroundColor="#00E8D8FF"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="0dp"
-                app:contentPadding="5dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivFotoInicial"
+                        app:srcCompat="@drawable/p18"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="30dp"/>
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center">
+                    >
 
-                    <RadioButton
-                        android:id="@+id/rbFEM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="45dp"
+                        android:layout_marginEnd="24dp"
+                        app:cardBackgroundColor="#00E8D8FF"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="0dp"
+                        app:contentPadding="5dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center">
+
+                            <RadioButton
+                                android:id="@+id/rbFEM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
 
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="wrap_content"
+                            <ImageView
+                                android:id="@+id/imageView4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/feminismo" />
+
+                            <RadioButton
+                                android:id="@+id/rbLG"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/imageView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/banderas" />
+
+                            <RadioButton
+                                android:id="@+id/rbHOM"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/imageView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/hom" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/etNuevoMail"
+
+                        android:ems="10"
+                        android:hint="E-mail"
+                        android:inputType="textPersonName"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/feminismo" />
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginTop="20dp"/>
+                </TableRow>
 
-                    <RadioButton
-                        android:id="@+id/rbLG"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="wrap_content"
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <EditText
+                        android:id="@+id/etNuevoNombre"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Nombre"
+                        android:inputType="textPersonName"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/banderas" />
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp" />
 
-                    <RadioButton
-                        android:id="@+id/rbHOM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
 
-                    <ImageView
-                        android:id="@+id/imageView6"
-                        android:layout_width="wrap_content"
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/etNuevaPass"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/hom" />
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:ems="10"
+                        android:layout_marginTop="8dp"
+                        android:hint="Password"
+                        android:inputType="textPassword" />
+                </TableRow>
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                    <EditText
+                        android:id="@+id/etNuevaPass2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:ems="10"
+                        android:layout_marginTop="8dp"
+                        android:hint="Password"
+                        android:inputType="textPassword" />
+                </TableRow>
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        </TableRow>
+                    <Button
+                        android:id="@+id/btNuevoUsuario"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="100dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="100dp"
+                        android:background="@drawable/borderedondo"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Registrar" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/etNuevoMail"
-
-                android:ems="10"
-                android:hint="E-mail"
-                android:inputType="textPersonName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="20dp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <EditText
-                android:id="@+id/etNuevoNombre"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="Nombre"
-                android:inputType="textPersonName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp" />
-
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/etNuevaPass"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:ems="10"
-                android:layout_marginTop="8dp"
-                android:hint="Password"
-                android:inputType="textPassword" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/etNuevaPass2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:ems="10"
-                android:layout_marginTop="8dp"
-                android:hint="Password"
-                android:inputType="textPassword" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btNuevoUsuario"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="100dp"
-                android:background="@drawable/borderedondo"
-                android:textColor="@color/colorPrimary"
-                android:text="Registrar" />
-        </TableRow>
+                    <Button
+                        android:id="@+id/btCargarFoto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="100dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="100dp"
+                        android:background="@drawable/borderedondo"
+                        android:text="Cargar foto"
+                        android:textColor="@color/colorPrimary" />
+                </TableRow>
 
 
-    </TableLayout>
+            </TableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

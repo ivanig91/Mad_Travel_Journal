@@ -1,9 +1,5 @@
 package com.len1.madtraveljournal.descargas;
 
-import android.util.Log;
-
-import com.len1.madtraveljournal.Constantes;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

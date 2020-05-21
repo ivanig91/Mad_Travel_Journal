@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,14 +21,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.len1.madtraveljournal.ClaseUsuario;
-import com.len1.madtraveljournal.Constantes;
+import com.len1.madtraveljournal.modelos.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.fragments.tabbed;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -47,9 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        usuario = mAuth.getCurrentUser();
+
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
         iniciarSesion = findViewById(R.id.btIniciar);
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setAction("Action", null).show();
                 //nuevoUsuario(emailString,passwordString,v);
             }else{
-                iniciarSes(emailString,passwordString,v);
+                iniciarSes(emailString.toLowerCase(),passwordString.toLowerCase(),v);
             }
         }
 
@@ -84,9 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAuth.signInWithEmailAndPassword(emailString,passwordString).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    Intent intent = new Intent(getApplicationContext(),tabbed.class);
-                    intent.putExtra("usuario",usuarioOB);
-                    startActivity(intent);
+                    Log.i("prueba1",usuarioOB.getEmail());
+                    buscarUsuario(usuarioOB.getEmail());
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -97,4 +95,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void buscarUsuario(String usuario){
+        Log.i("prueba2",usuario);
+        DocumentReference docRef = db.collection(Constantes.TABLA_USUARIOS).document(usuario);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document!=null){
+                        ClaseUsuario usuario1 =document.toObject(ClaseUsuario.class);
+                        Intent intent = new Intent(getApplicationContext(),tabbed.class);
+                        intent.putExtra("usuario",usuario1);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+    }
 }

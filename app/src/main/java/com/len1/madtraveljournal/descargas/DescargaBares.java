@@ -3,8 +3,8 @@ package com.len1.madtraveljournal.descargas;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.len1.madtraveljournal.Constantes;
-import com.len1.madtraveljournal.ListasYAdapters;
+import com.len1.madtraveljournal.modelos.Constantes;
+import com.len1.madtraveljournal.modelos.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.lugares.LugarBar;
 

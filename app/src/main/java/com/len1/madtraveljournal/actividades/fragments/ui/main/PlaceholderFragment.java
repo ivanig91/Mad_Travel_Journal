@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.len1.madtraveljournal.ClaseUsuario;
-import com.len1.madtraveljournal.ListasYAdapters;
+import com.len1.madtraveljournal.modelos.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
 import com.len1.madtraveljournal.descargas.DescargaBares;

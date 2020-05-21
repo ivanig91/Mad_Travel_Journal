@@ -1,4 +1,4 @@
-package com.len1.madtraveljournal;
+package com.len1.madtraveljournal.modelos;
 
 import android.graphics.Bitmap;
 

@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.len1.madtraveljournal.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.lugares.LugarBar;
 
