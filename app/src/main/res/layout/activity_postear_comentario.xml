@@ -36,14 +36,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@android:color/white"
             android:hint="@string/comment_text_hint"
             android:inputType="textMultiLine"
             android:maxHeight="@dimen/new_comment_max_height"
             android:minHeight="@dimen/new_comment_min_height"
             android:padding="@dimen/intrinsic_padding" />
 
-        <Button
+        <ImageButton
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,6 @@
             android:minWidth="0dp"
             android:paddingLeft="@dimen/large_intrinsic_padding"
             android:paddingRight="@dimen/large_intrinsic_padding"
-            android:text="@string/send_comment_button_label"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

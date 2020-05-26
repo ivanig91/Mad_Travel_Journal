@@ -1,23 +1,35 @@
 package com.len1.madtraveljournal.modelos;
 
 public class Post {
-
-    private ClaseUsuario usuario;
+    private String nombre;
+    private String urlFoto;
     private String comentario;
     private String bar;
 
-    public Post(ClaseUsuario usuario, String comentario, String bar) {
-        this.usuario = usuario;
+    public Post(String nombre, String urlFoto, String comentario, String bar) {
+        this.nombre = nombre;
+        this.urlFoto = urlFoto;
         this.comentario = comentario;
         this.bar = bar;
     }
+    public Post(){
 
-    public ClaseUsuario getUsuario() {
-        return usuario;
     }
 
-    public void setUsuario(ClaseUsuario usuario) {
-        this.usuario = usuario;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 
     public String getComentario() {

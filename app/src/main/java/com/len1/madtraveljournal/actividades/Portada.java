@@ -21,7 +21,6 @@ import com.len1.madtraveljournal.actividades.fragments.tabbed;
 
 public class Portada extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;// esto lo voy a utilizar despues
     private FirebaseUser usuario;
     private FirebaseFirestore db;
     @Override

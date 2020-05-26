@@ -16,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".actividades.PersonasEnBar"></activity>
+        <activity android:name=".actividades.MostrarPop" />
         <activity android:name=".actividades.Portada">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +50,7 @@
             android:name=".actividades.fragments.tabbed"
             android:label="@string/title_activity_tabbed"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".actividades.MainActivity"></activity>
+        <activity android:name=".actividades.MainActivity" />
     </application>
 
 </manifest>

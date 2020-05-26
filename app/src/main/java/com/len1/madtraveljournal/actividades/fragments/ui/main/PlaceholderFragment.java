@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.len1.madtraveljournal.actividades.MostrarPop;
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.len1.madtraveljournal.modelos.ListasYAdapters;
 import com.len1.madtraveljournal.R;
@@ -35,6 +36,7 @@ public class PlaceholderFragment extends Fragment {
     private ListasYAdapters listasYAdapters;
     private PageViewModel pageViewModel;
     private ClaseUsuario usuario;
+
 
 
 
@@ -118,6 +120,18 @@ public class PlaceholderFragment extends Fragment {
 
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent pop = new Intent(getContext(), MostrarPop.class);
+                LugarBar bar = (LugarBar) parent.getItemAtPosition(position);
+                pop.putExtra("bar",bar);
+                startActivity(pop);
+                return false;
+            }
+        });
+
         return root;
     }
 }

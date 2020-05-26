@@ -159,13 +159,17 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
     private void subirFoto(final FirebaseUser user){
 
         String path = "fotoperfil/"+ UUID.randomUUID().toString();
-        StorageReference ref = storageReference.child(path);
+        final StorageReference ref = storageReference.child(path);
         ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String downloadUri = taskSnapshot.getMetadata().getReference().getDownloadUrl()
-                        .toString();
-                updateUI(user,downloadUri);
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String downloadUri = uri.toString();
+                        updateUI(user,downloadUri);
+                    }
+                });
 
             }
         });
@@ -191,6 +195,7 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
         usuario.put("nombreUsuario",userName);
         usuario.put("genero",devuelveGenero());
         usuario.put("baresfavoritos",usuarioOB.getBaresFavoritos());
+        usuario.put("barActual","");
 
         if(urlFoto!=null){
             usuarioOB.setUrlFoto(urlFoto);

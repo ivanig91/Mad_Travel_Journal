@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void buscarUsuario(String usuario){
-        Log.i("prueba2",usuario);
         DocumentReference docRef = db.collection(Constantes.TABLA_USUARIOS).document(usuario);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

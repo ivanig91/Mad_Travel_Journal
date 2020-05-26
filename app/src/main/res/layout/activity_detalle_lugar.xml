@@ -16,24 +16,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/ivFoto3"
-                    android:layout_width="400dp"
-                    android:layout_height="240dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.384"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="100dp"
-                    tools:srcCompat="@tools:sample/avatars" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+
+
+        <ImageView
+            android:id="@+id/ivFoto3"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.384"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="100dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
 
 
         <androidx.cardview.widget.CardView
@@ -42,32 +38,76 @@
             app:cardBackgroundColor="#EDF3FF"
             app:cardCornerRadius="3dp"
             app:cardElevation="5dp"
-            app:contentPadding="5dp">
+            app:contentPadding="5dp"
+            android:paddingTop="20dp">
 
-            <LinearLayout
+            <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Estoy en este lugar"/>
+
+                    <Switch
+                        android:id="@+id/swGuardarBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                         />
+
+                </TableRow>
+                <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvDescripcionBar"
+                    <TextView
+                    android:text="Calle: "/>
+                    <TextView
+                    android:id="@+id/tvDetalleCalle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:justificationMode="inter_word"
-                    android:layout_gravity="center_horizontal|fill_vertical"
-                    android:gravity="fill_vertical"
-                    android:text="TextView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivFoto3" />
+                    android:text="EJEMPLO"/>
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </LinearLayout>
+                    <TextView
+                        android:text="Cantidad de personas que les gusta: "/>
+                    <TextView
+                        android:id="@+id/tvDetalleCantidadLikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EJEMPLO"/>
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                </TableRow>
+
+            </TableLayout>
+
         </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/btEntraBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="100dp"
+            android:background="@drawable/borderedondo"
+            android:textColor="@color/colorPrimary"
+            android:text="Quien está en el bar" />
+
 
 
     </LinearLayout>
 </ScrollView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabPost"

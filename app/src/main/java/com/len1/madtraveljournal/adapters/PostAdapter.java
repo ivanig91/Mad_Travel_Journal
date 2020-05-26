@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.modelos.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -67,12 +68,9 @@ public class PostAdapter extends BaseAdapter {
         }
 
         Post post = lista.get(position);
-        holder.nombre.setText(post.getUsuario().getNombreUsuario());
+        holder.nombre.setText(post.getNombre());
         holder.comentario.setText(post.getComentario());
-        // acá tengo que poner un if para que se baje la foto del usuario
-        // de firebase storage, en caso de que el link sea nulo pongo imagenes predeterminadas
-        // de acuerdo al genero de la persona
-        holder.foto.setImageResource(R.drawable.p18);
+        Picasso.get().load(post.getUrlFoto()).into(holder.foto);
         return convertView;
     }
 }

@@ -33,6 +33,7 @@ public class BarAdapter extends BaseAdapter {
         ImageView icono;
         TextView nombre;
         TextView calle;
+        TextView descripcion;
 
     }
 
@@ -62,7 +63,7 @@ public class BarAdapter extends BaseAdapter {
             holder.icono = (ImageView) convertView.findViewById(R.id.ivFoto3);
             holder.nombre = (TextView) convertView.findViewById(R.id.tvNombrLugar);
             holder.calle = (TextView) convertView.findViewById(R.id.tvCalleLugar);
-
+            holder.descripcion = convertView.findViewById(R.id.tvDescripcionCover);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -71,8 +72,15 @@ public class BarAdapter extends BaseAdapter {
         lugar = listaLugar.get(position);
         holder.nombre.setText(lugar.getNombre());
         holder.calle.setText(lugar.getDireccion());
-        Picasso.get().load(lugar.getFotoUrl()).into(holder.icono);
+        String desc;
+        if(lugar.getDescripcion().length()>=140){
+            desc = lugar.getDescripcion().substring(0,140)+"...";
+        }else{
+            desc = lugar.getDescripcion();
+        }
 
+        holder.descripcion.setText(desc);
+        Picasso.get().load(lugar.getFotoUrl()).into(holder.icono);
 
 
         return convertView;
