@@ -53,7 +53,7 @@ public class PersonasEnBar extends AppCompatActivity {
                          ClaseUsuario  persona = document.toObject(ClaseUsuario.class);
                          listaUsuarios.add(persona);
                     }
-                    adapter = new ClaseUsuarioAdapter(PersonasEnBar.this,listaUsuarios);
+                    adapter = new ClaseUsuarioAdapter(PersonasEnBar.this,listaUsuarios,usuario);
                     listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }

@@ -76,7 +76,6 @@ public class PostearComentario extends AppCompatActivity {
             mapaComentario.put("urlFoto",usuario.getUrlFoto());
             mapaComentario.put("comentario",com);
             mapaComentario.put("bar",bar.getNombre());
-           // FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection(Constantes.TABLA_COMENTARIOS).document().set(mapaComentario).
                     addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

@@ -18,8 +18,9 @@ public class Constantes {
     public final static String CAT_COHOCO = "Chocolaterías";
     public final static String NODO_MONUMENTOS = "@graph";
     public final static String TABLA_USUARIOS = "Usuarios";
-    public final static String TABLA_PERSONAS_EN_BAR = "PersonasEnBar";
+    public final static String SUBCOLECION_MATCH ="MatchSubColection";
     public final static String TABLA_COMENTARIOS = "Comentarios";
+    public final static String TABLA_MATCH ="Match";
     public final static String MENSAJE_DATOS_VACIOS="Debe rellenar todos los campos para continuar";
     public final static String GENERO_HOM="H";
     public final static String GENERO_LGBT="LGBT";
