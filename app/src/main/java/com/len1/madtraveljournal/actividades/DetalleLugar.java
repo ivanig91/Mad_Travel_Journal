@@ -44,6 +44,7 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
     ClaseUsuario usuario;
     Switch swEstoyAca;
     Button btEntrarBar;
+    FirebaseFirestore db;
 
 
     @Override
@@ -59,8 +60,10 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         btEntrarBar = findViewById(R.id.btEntraBar);
         btEntrarBar.setOnClickListener(this);
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
+        db  = FirebaseFirestore.getInstance();
 
         this.setTitle(bar.getNombre());
+        comprobarSwitch();
         metodoDelSwitch();
         tvDetalleCalle.setText(bar.getDireccion());
         fab = findViewById(R.id.fabPost);
@@ -94,6 +97,26 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
+    private void comprobarSwitch(){
+        DocumentReference docRef = db.collection(Constantes.TABLA_USUARIOS).document(usuario.getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document!=null){
+                        usuario =document.toObject(ClaseUsuario.class);
+                        if(usuario.getBarActual().equals(bar.getNombre())){
+                            swEstoyAca.setChecked(true);
+                        }else{
+                            swEstoyAca.setChecked(false);
+                        }
+                    }
+                }
+            }
+        });
+
+    }
 
     private void metodoDelSwitch(){
         swEstoyAca.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -112,11 +135,13 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == btEntrarBar.getId()){
+        if(v.getId() == btEntrarBar.getId()&& swEstoyAca.isChecked()){
             Intent intent = new Intent(getApplicationContext(), PersonasEnBar.class);
             intent.putExtra("usuario",usuario);
             intent.putExtra("bar",bar);
             startActivity(intent);
+        }else{
+            Toast.makeText(this,"Tienes que estar en el bar",Toast.LENGTH_LONG);
         }
     }
 }

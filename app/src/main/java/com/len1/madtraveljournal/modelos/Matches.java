@@ -3,11 +3,32 @@ package com.len1.madtraveljournal.modelos;
 public class Matches {
     private String envia;
     private String recibe;
+    private String bar;
+    private boolean match;
 
-    public Matches(String envia, String recibe) {
+    public Matches(String envia, String recibe, String bar) {
         this.envia = envia;
-        thiºs.recibe = recibe;
+        this.recibe = recibe;
+        this.bar = bar;
+        match = false;
     }
+
+    public boolean isMatch() {
+        return match;
+    }
+
+    public void setMatch(boolean match) {
+        this.match = match;
+    }
+
+    public String getBar() {
+        return bar;
+    }
+
+    public void setBar(String bar) {
+        this.bar = bar;
+    }
+
     public Matches(){
 
     }

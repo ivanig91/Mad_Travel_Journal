@@ -9,15 +9,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClaseUsuarioAdapter extends BaseAdapter {
+public class ClaseUsuarioAdapter extends BaseAdapter  {
     private Context context;
     private ArrayList<ClaseUsuario> listaUsuarios;
     private ClaseUsuario usuarioOwner;
@@ -45,10 +51,13 @@ public class ClaseUsuarioAdapter extends BaseAdapter {
         db = FirebaseFirestore.getInstance();
 
     }
-    static class ViewHolder  {
+
+
+
+    static class ViewHolder {
         TextView nombre;
         ImageView foto;
-        Button btAccion;
+        ImageButton btAccion;
     }
 
     @Override
@@ -86,6 +95,8 @@ public class ClaseUsuarioAdapter extends BaseAdapter {
         ClaseUsuario usuario = listaUsuarios.get(position);
         holder.nombre.setText(usuario.getNombreUsuario());
         Picasso.get().load(usuario.getUrlFoto()).into(holder.foto);
+        View v = convertView.findViewById(R.id.paraVer);
+
         holder.foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,44 +112,70 @@ public class ClaseUsuarioAdapter extends BaseAdapter {
                 settingsDialog.show();
             }
         });
-
         holder.btAccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClaseUsuario recibeUsuario = listaUsuarios.get( (int)holder.btAccion.getTag());
-                invitarUnaCopa(recibeUsuario);
+                buscarDocumento(recibeUsuario,v);
             }
         });
 
         return convertView;
     }
+
+
+    private void buscarDocumento(final ClaseUsuario personaBuscada, final View v){
+        String nombreDocumento = personaBuscada.getEmail()+usuarioOwner.getEmail()+usuarioOwner.getBarActual();
+        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        // Creo una coleccion nueva que tenga como clave nombreDocumento
+                        // Tambien debo mover a TRUE el valor en este documento al moverlo a TRUE
+                        //le debe llegar una notificación al usuario que lo mando
+                        Log.i("ivan","se ha creado un chat");
+                    }else{
+                        soyIntenso(personaBuscada,v);
+                    }
+                }
+            }
+        });
+
+    }
+    private void soyIntenso(final ClaseUsuario personaBuscada,final View v){
+        String nombreDocumento = usuarioOwner.getEmail()+personaBuscada.getEmail()+usuarioOwner.getBarActual();
+        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        Matches posibleMatch = document.toObject(Matches.class);
+                        if(posibleMatch.isMatch()){
+                            //Esto todavia no funciona porque todavia no modifico el true
+                            Log.i("ivan","si hice click aca, quiero volver a abrir la conversacion");
+                        }else{
+                            Snackbar.make(v,"Esperando match",BaseTransientBottomBar.LENGTH_LONG).show();
+                        }
+                    }else{
+                        invitarUnaCopa(personaBuscada);
+                    }
+                }
+            }
+        });
+    }
     private void invitarUnaCopa(final ClaseUsuario recibeUsuario){
         Map<String,Object> mapaMatch = new HashMap<>();
         mapaMatch.put("envia",usuarioOwner.getEmail());
         mapaMatch.put("recibe",recibeUsuario.getEmail());
-        db.collection(Constantes.TABLA_MATCH).document().set(mapaMatch).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                buscarmeMatch(recibeUsuario.getEmail());
-            }
-        });
+        mapaMatch.put("bar",usuarioOwner.getBarActual());
+        mapaMatch.put("match",false);
+        String nombreDocumento = usuarioOwner.getEmail()+recibeUsuario.getEmail()+usuarioOwner.getBarActual();
+        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).set(mapaMatch);
     }
-    private void buscarmeMatch(final String personaBuscada){
-        db.collection(Constantes.TABLA_MATCH).whereEqualTo("recibe",usuarioOwner.getEmail()).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document: task.getResult()){
-                                Matches posibleMatch = document.toObject(Matches.class);
 
-                                if(posibleMatch.getEnvia().equals(personaBuscada)){
-                                    Log.i("matchEncontrado","match encotnrado");
-                                }
-                            }
-                        }
-                    }
-                });
-    }
+
 
 }
