@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.R;
@@ -58,6 +59,10 @@ public class Portada extends AppCompatActivity {
                 }
             }
         });
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
     }
 
     @Override

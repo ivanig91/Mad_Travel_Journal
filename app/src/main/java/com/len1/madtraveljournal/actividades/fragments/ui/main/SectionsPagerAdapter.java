@@ -17,12 +17,14 @@ import com.len1.madtraveljournal.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private ClaseUsuario usuario;
+    private Context context;
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3,R.string.tab_text_4,R.string.tab_text_5,R.string.tab_text_6};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm,ClaseUsuario usuario) {
         super(fm);
+
         this.usuario = usuario;
         mContext = context;
     }
@@ -33,7 +35,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         PlaceholderFragment fragment = new PlaceholderFragment();
 
-        return fragment.newInstance(position + 1,usuario);
+        return fragment.newInstance(position + 1,usuario,mContext);
     }
 
     @Nullable

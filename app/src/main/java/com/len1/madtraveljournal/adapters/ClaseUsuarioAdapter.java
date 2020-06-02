@@ -2,32 +2,26 @@ package com.len1.madtraveljournal.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.len1.madtraveljournal.R;
+import com.len1.madtraveljournal.actividades.ChatActivity;
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.modelos.Matches;
@@ -51,8 +45,6 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
         db = FirebaseFirestore.getInstance();
 
     }
-
-
 
     static class ViewHolder {
         TextView nombre;
@@ -125,17 +117,18 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
 
 
     private void buscarDocumento(final ClaseUsuario personaBuscada, final View v){
-        String nombreDocumento = personaBuscada.getEmail()+usuarioOwner.getEmail()+usuarioOwner.getBarActual();
+        final String nombreDocumento = personaBuscada.getEmail()+usuarioOwner.getEmail()+usuarioOwner.getBarActual();
         db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
+                    Matches match = document.toObject(Matches.class);
                     if(document.exists()){
-                        // Creo una coleccion nueva que tenga como clave nombreDocumento
-                        // Tambien debo mover a TRUE el valor en este documento al moverlo a TRUE
-                        //le debe llegar una notificación al usuario que lo mando
-                        Log.i("ivan","se ha creado un chat");
+
+                        crearMatch(match, nombreDocumento);
+
+
                     }else{
                         soyIntenso(personaBuscada,v);
                     }
@@ -145,7 +138,7 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
 
     }
     private void soyIntenso(final ClaseUsuario personaBuscada,final View v){
-        String nombreDocumento = usuarioOwner.getEmail()+personaBuscada.getEmail()+usuarioOwner.getBarActual();
+        final String nombreDocumento = usuarioOwner.getEmail()+personaBuscada.getEmail()+usuarioOwner.getBarActual();
         db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -155,6 +148,11 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
                         Matches posibleMatch = document.toObject(Matches.class);
                         if(posibleMatch.isMatch()){
                             //Esto todavia no funciona porque todavia no modifico el true
+                            Intent intent = new Intent(context, ChatActivity.class);
+                            intent.putExtra("coleccion",nombreDocumento);
+                            intent.putExtra("match",posibleMatch);
+                            intent.putExtra("usuario",usuarioOwner);
+                            context.startActivity(intent);
                             Log.i("ivan","si hice click aca, quiero volver a abrir la conversacion");
                         }else{
                             Snackbar.make(v,"Esperando match",BaseTransientBottomBar.LENGTH_LONG).show();
@@ -169,13 +167,37 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
     private void invitarUnaCopa(final ClaseUsuario recibeUsuario){
         Map<String,Object> mapaMatch = new HashMap<>();
         mapaMatch.put("envia",usuarioOwner.getEmail());
+        mapaMatch.put("fotoEnvia",usuarioOwner.getUrlFoto());
+        mapaMatch.put("nombreEnvia",usuarioOwner.getNombreUsuario());
         mapaMatch.put("recibe",recibeUsuario.getEmail());
+        mapaMatch.put("nombreRecibe",recibeUsuario.getNombreUsuario());
+        mapaMatch.put("fotoRecibe",recibeUsuario.getUrlFoto());
         mapaMatch.put("bar",usuarioOwner.getBarActual());
         mapaMatch.put("match",false);
         String nombreDocumento = usuarioOwner.getEmail()+recibeUsuario.getEmail()+usuarioOwner.getBarActual();
         db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).set(mapaMatch);
     }
+    private void crearMatch(Matches match, String nombreDocumento){
+        if(match.isMatch()){
+            Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("coleccion",nombreDocumento);
+            intent.putExtra("match",match);
+            intent.putExtra("usuario",usuarioOwner);
+            context.startActivity(intent);
+        }else{
+            Map<String,Object> mapaMatch = new HashMap<>();
+            mapaMatch.put("envia",match.getEnvia());
+            mapaMatch.put("nombreEnvia",match.getNombreEnvia());
+            mapaMatch.put("fotoEnvia",match.getFotoEnvia());
+            mapaMatch.put("recibe",match.getRecibe());
+            mapaMatch.put("nombreRecibe",match.getNombreRecibe());
+            mapaMatch.put("fotoRecibe",match.getFotoRecibe());
+            mapaMatch.put("bar",match.getBar());
+            mapaMatch.put("match",true);
+            db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).update(mapaMatch);
+        }
 
 
+    }
 
 }

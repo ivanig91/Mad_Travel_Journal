@@ -1,5 +1,6 @@
 package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,13 +37,15 @@ public class PlaceholderFragment extends Fragment {
     private ListasYAdapters listasYAdapters;
     private PageViewModel pageViewModel;
     private ClaseUsuario usuario;
+    private Context context;
 
 
 
 
-    public  PlaceholderFragment newInstance(int index,ClaseUsuario usuario) {
+    public  PlaceholderFragment newInstance(int index,ClaseUsuario usuario,Context context) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         this.usuario = usuario;
+        this.context = context;
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);

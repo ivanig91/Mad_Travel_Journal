@@ -1,7 +1,13 @@
 package com.len1.madtraveljournal.modelos;
 
-public class Matches {
+import java.io.Serializable;
+
+public class Matches implements Serializable {
     private String envia;
+    private String fotoEnvia;
+    private String nombreEnvia;
+    private String fotoRecibe;
+    private String nombreRecibe;
     private String recibe;
     private String bar;
     private boolean match;
@@ -11,6 +17,38 @@ public class Matches {
         this.recibe = recibe;
         this.bar = bar;
         match = false;
+    }
+
+    public String getNombreEnvia() {
+        return nombreEnvia;
+    }
+
+    public void setNombreEnvia(String nombreEnvia) {
+        this.nombreEnvia = nombreEnvia;
+    }
+
+    public String getNombreRecibe() {
+        return nombreRecibe;
+    }
+
+    public void setNombreRecibe(String nombreRecibe) {
+        this.nombreRecibe = nombreRecibe;
+    }
+
+    public String getFotoEnvia() {
+        return fotoEnvia;
+    }
+
+    public void setFotoEnvia(String fotoEnvia) {
+        this.fotoEnvia = fotoEnvia;
+    }
+
+    public String getFotoRecibe() {
+        return fotoRecibe;
+    }
+
+    public void setFotoRecibe(String fotoRecibe) {
+        this.fotoRecibe = fotoRecibe;
     }
 
     public boolean isMatch() {

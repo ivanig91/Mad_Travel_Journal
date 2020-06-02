@@ -35,8 +35,13 @@ public class PersonasEnBar extends AppCompatActivity {
         Intent intent = getIntent();
         bar = (LugarBar) intent.getSerializableExtra("bar");
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
-        descargaUsuarios();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        descargaUsuarios();
     }
 
     private void descargaUsuarios(){

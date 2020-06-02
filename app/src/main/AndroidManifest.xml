@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".actividades.PersonasEnBar"></activity>
+        <activity android:name=".actividades.ChatActivity"></activity>
+        <activity android:name=".actividades.PersonasEnBar" />
         <activity android:name=".actividades.MostrarPop" />
         <activity android:name=".actividades.Portada">
             <intent-filter>

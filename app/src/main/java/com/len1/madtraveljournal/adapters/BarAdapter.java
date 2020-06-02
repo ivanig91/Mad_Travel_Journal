@@ -1,17 +1,21 @@
 package com.len1.madtraveljournal.adapters;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.len1.madtraveljournal.R;
 
+import com.len1.madtraveljournal.lugares.Lugar;
 import com.len1.madtraveljournal.lugares.LugarBar;
 
 import com.squareup.picasso.Picasso;
@@ -54,7 +58,7 @@ public class BarAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+       final ViewHolder holder ;
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.lvlugar, null);
@@ -64,6 +68,7 @@ public class BarAdapter extends BaseAdapter {
             holder.nombre = (TextView) convertView.findViewById(R.id.tvNombrLugar);
             holder.calle = (TextView) convertView.findViewById(R.id.tvCalleLugar);
             holder.descripcion = convertView.findViewById(R.id.tvDescripcionCover);
+            holder.icono.setTag(position);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
