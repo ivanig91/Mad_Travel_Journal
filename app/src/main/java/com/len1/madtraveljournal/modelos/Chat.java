@@ -1,12 +1,19 @@
 package com.len1.madtraveljournal.modelos;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
+
 public class Chat {
 
+    @ServerTimestamp
+    private Date fecha;
     private String nombre;
     private String foto;
     private String email;
     private String mensaje;
-    private String fecha;
+
+
 
 
     public Chat(String nombre, String foto, String email, String mensaje) {
@@ -19,11 +26,11 @@ public class Chat {
 
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

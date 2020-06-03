@@ -1,6 +1,7 @@
 package com.len1.madtraveljournal.actividades;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,9 @@ import android.widget.ListView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -59,6 +62,7 @@ public class ChatActivity extends AppCompatActivity {
         match = (Matches) intent.getSerializableExtra("match");
         coleccion = intent.getStringExtra("coleccion");
         descargarMensajes();
+        mensajesListener();
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +80,7 @@ public class ChatActivity extends AppCompatActivity {
             mapa.put("email",usuarioOwner.getEmail());
             mapa.put("mensaje",mensString);
             Date ahora = Calendar.getInstance().getTime();
-            mapa.put("fecha",ahora.toString());
+            mapa.put("fecha",ahora);
             db.collection(coleccion).document().set(mapa).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -105,6 +109,14 @@ public class ChatActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                 }
+            }
+        });
+    }
+    private void mensajesListener(){
+        db.collection(coleccion).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                descargarMensajes();
             }
         });
     }

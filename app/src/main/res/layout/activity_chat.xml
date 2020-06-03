@@ -8,16 +8,16 @@
     tools:context=".actividades.ChatActivity"
     >
 
+    <!-- A horizontal line between the chatbox and RecyclerView -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listviewchat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <!-- A horizontal line between the chatbox and RecyclerView -->
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
