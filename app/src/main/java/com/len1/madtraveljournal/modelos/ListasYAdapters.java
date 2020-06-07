@@ -1,6 +1,9 @@
 package com.len1.madtraveljournal.modelos;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.lugares.LugarBar;
@@ -14,6 +17,7 @@ public class ListasYAdapters {
     private ArrayList<LugarBar> discoteca;
     private ArrayList<LugarBar> otros;
     private ArrayList<LugarBar> karaoke;
+    private ArrayList<LugarBar> todos;
 
 
     private BarAdapter adapterFlamenco;
@@ -22,6 +26,8 @@ public class ListasYAdapters {
     private BarAdapter adapterOtros;
     private BarAdapter adapterKaraoke;
     private BarAdapter adapterDiscoteca;
+    private BarAdapter adapterTodos;
+    private EditText buscador;
     public ListasYAdapters(Context context) {
         flamenco = new ArrayList<>();
         cocteleriasTerrazasYBares = new ArrayList<>();
@@ -29,6 +35,7 @@ public class ListasYAdapters {
         discoteca = new ArrayList<>();
         otros = new ArrayList<>();
         karaoke = new ArrayList<>();
+        this.buscador = buscador;
 
         adapterFlamenco = new BarAdapter(context,flamenco);
         adapterCoctelerias = new BarAdapter(context,cocteleriasTerrazasYBares);
@@ -37,6 +44,33 @@ public class ListasYAdapters {
         adapterMusicaDirecto = new BarAdapter(context,musicaDirecto);
         adapterDiscoteca = new BarAdapter(context,discoteca);
 
+    }
+
+    public EditText getBuscador() {
+        return buscador;
+    }
+
+    public void setBuscador(EditText buscador) {
+        this.buscador = buscador;
+    }
+
+    public void filtraTexto(){
+        buscador.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                adapterTodos.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
     public void notificarAdapters(){
 

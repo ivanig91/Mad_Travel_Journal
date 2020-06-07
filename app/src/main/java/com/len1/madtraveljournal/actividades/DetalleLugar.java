@@ -50,7 +50,7 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
     FloatingActionButton fab;
     ClaseUsuario usuario;
     Switch swEstoyAca;
-    Button btEntrarBar, btComoLlegar,btComentarios;
+    Button btEntrarBar, btComoLlegar,btComentarios,btVerFotos;
     FirebaseFirestore db;
 
 
@@ -66,6 +66,16 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         btEntrarBar.setOnClickListener(this);
         btComentarios = findViewById(R.id.btComentarios);
         btComoLlegar = findViewById(R.id.btComoLlegar);
+        btVerFotos = findViewById(R.id.btVerFotos);
+        btVerFotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),VerFotos.class);
+                intent.putExtra("bar",bar.getNombre());
+                intent.putExtra("usuario",usuario);
+                startActivity(intent);
+            }
+        });
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
         db  = FirebaseFirestore.getInstance();
         btComoLlegar.setOnClickListener(new View.OnClickListener() {

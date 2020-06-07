@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".actividades.ActualizarUsuario"></activity>
+        <activity android:name=".actividades.VerFotos"></activity>
+        <activity android:name=".actividades.ActualizarUsuario" />
         <activity android:name=".actividades.ChatActivity" />
         <activity android:name=".actividades.PersonasEnBar" />
         <activity android:name=".actividades.MostrarPop" />

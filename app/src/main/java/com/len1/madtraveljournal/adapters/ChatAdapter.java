@@ -39,7 +39,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         CircleImageView foto;
         TextView nombre;
         TextView mensaje;
-        TextView hora;
+
 
         public RecibidosHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,7 +50,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
         }
 
         void bind (Chat chat){
-            // debo poner un metodo que ponga la hora en el textView
             nombre.setText(chat.getNombre());
             mensaje.setText(chat.getMensaje());
             Picasso.get().load(chat.getFoto()).into(foto);
@@ -63,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         public EnviadosHolder(@NonNull View itemView) {
             super(itemView);
             mensaje = itemView.findViewById(R.id.text_message_body);
-            hora = itemView.findViewById(R.id.text_message_timeS);
+
         }
 
         void bind(Chat chat){

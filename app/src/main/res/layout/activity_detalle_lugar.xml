@@ -81,7 +81,17 @@
             android:textColor="@color/colorPrimary"
             android:text="Comentarios" />
         <Button
-            android:id="@+id/btComoLlegar"
+        android:id="@+id/btComoLlegar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="100dp"
+        android:background="@drawable/borderedondo"
+        android:textColor="@color/colorPrimary"
+        android:text="Como llegar" />
+        <Button
+            android:id="@+id/btVerFotos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -89,7 +99,7 @@
             android:layout_marginEnd="100dp"
             android:background="@drawable/borderedondo"
             android:textColor="@color/colorPrimary"
-            android:text="Como llegar" />
+            android:text="Ver Fotos" />
     </LinearLayout>
 </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

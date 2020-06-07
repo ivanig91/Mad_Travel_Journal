@@ -60,7 +60,7 @@ public class tabbed extends AppCompatActivity {
             intent.putExtra("origen", Constantes.ACT_MENU);
             intent.putExtra("usuario",usuario);
             startActivity(intent);
-        }else{
+        }else if(item.getItemId() == R.id.menuCerrarSesion){
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             mAuth.signOut();
             finish();

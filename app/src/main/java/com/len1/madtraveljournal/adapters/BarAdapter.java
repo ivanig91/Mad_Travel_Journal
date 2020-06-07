@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,17 +25,24 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class BarAdapter extends BaseAdapter {
+public class BarAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private ArrayList<LugarBar> listaLugar;
     private LayoutInflater inflater;
     LugarBar lugar=null;
+
 
     public BarAdapter(Context context, ArrayList<LugarBar> listaLugar) {
         this.context = context;
         this.listaLugar = listaLugar;
         inflater = LayoutInflater.from(context);
     }
+
+    @Override
+    public Filter getFilter() {
+        return null;
+    }
+
     static class ViewHolder{
         ImageView icono;
         TextView nombre;
@@ -83,6 +93,7 @@ public class BarAdapter extends BaseAdapter {
         }else{
             desc = lugar.getDescripcion();
         }
+        
 
         holder.descripcion.setText(desc);
         Picasso.get().load(lugar.getFotoUrl()).into(holder.icono);
@@ -90,5 +101,6 @@ public class BarAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
 }
