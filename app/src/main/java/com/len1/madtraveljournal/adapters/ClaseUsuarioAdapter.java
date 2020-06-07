@@ -1,7 +1,9 @@
 package com.len1.madtraveljournal.adapters;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,7 +39,6 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
     private ArrayList<ClaseUsuario> listaUsuarios;
     private ClaseUsuario usuarioOwner;
     private FirebaseFirestore db;
-
 
     public ClaseUsuarioAdapter(Context context, ArrayList<ClaseUsuario> listaUsuarios,ClaseUsuario
                                usuarioOwner) {
@@ -125,10 +128,7 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
                     DocumentSnapshot document = task.getResult();
                     Matches match = document.toObject(Matches.class);
                     if(document.exists()){
-
                         crearMatch(match, nombreDocumento);
-
-
                     }else{
                         soyIntenso(personaBuscada,v);
                     }
@@ -147,7 +147,6 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
                     if(document.exists()){
                         Matches posibleMatch = document.toObject(Matches.class);
                         if(posibleMatch.isMatch()){
-                            //Esto todavia no funciona porque todavia no modifico el true
                             Intent intent = new Intent(context, ChatActivity.class);
                             intent.putExtra("coleccion",nombreDocumento);
                             intent.putExtra("match",posibleMatch);
@@ -165,6 +164,7 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
         });
     }
     private void invitarUnaCopa(final ClaseUsuario recibeUsuario){
+        mostrarDialogo(recibeUsuario.getNombreUsuario()).show();
         Map<String,Object> mapaMatch = new HashMap<>();
         mapaMatch.put("envia",usuarioOwner.getEmail());
         mapaMatch.put("fotoEnvia",usuarioOwner.getUrlFoto());
@@ -179,12 +179,9 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
     }
     private void crearMatch(Matches match, String nombreDocumento){
         if(match.isMatch()){
-            Intent intent = new Intent(context, ChatActivity.class);
-            intent.putExtra("coleccion",nombreDocumento);
-            intent.putExtra("match",match);
-            intent.putExtra("usuario",usuarioOwner);
-            context.startActivity(intent);
+           intentChat(match,nombreDocumento);
         }else{
+            dialogoEncotnrado(match,nombreDocumento).show();
             Map<String,Object> mapaMatch = new HashMap<>();
             mapaMatch.put("envia",match.getEnvia());
             mapaMatch.put("nombreEnvia",match.getNombreEnvia());
@@ -199,5 +196,49 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
 
 
     }
+    private void intentChat(Matches match, String nombreDocumento){
+        Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("coleccion",nombreDocumento);
+        intent.putExtra("match",match);
+        intent.putExtra("usuario",usuarioOwner);
+        context.startActivity(intent);
+    }
+    private Dialog dialogoEncotnrado(final Matches match, final String nombreDocumento){
+        String texto= "" ;
+        texto = context.getString(R.string.match_ecnotnrado)+" "+match.getNombreEnvia();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View dialogView = inflater.inflate(R.layout.dialoglayout,null);
+        TextView textView = dialogView.findViewById(R.id.tvDialog);
+        textView.setText(texto);
+        builder.setView(dialogView).setPositiveButton(R.string.aceptar,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                        intentChat(match,nombreDocumento);
+                    }
+                });
+
+        return  builder.create();
+    }
+
+    private Dialog mostrarDialogo(String nombre){
+        String texto= "" ;
+        texto= context.getString(R.string.match_enviado)+" "+nombre;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View dialogView = inflater.inflate(R.layout.dialoglayout,null);
+        TextView textView = dialogView.findViewById(R.id.tvDialog);
+        textView.setText(texto);
+        builder.setView(dialogView).setPositiveButton(R.string.aceptar,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        return  builder.create();
+    }
 }

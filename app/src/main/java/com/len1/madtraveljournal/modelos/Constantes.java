@@ -8,6 +8,8 @@ public class Constantes {
     public final static String CAT_MUSICA_DIRECTO = "Musica directo";
     public final static String CAT_FLAMENCO = "Flamenco";
     public final static String CAT_TERRAZAS = "Terrazas";
+    public final static String ACT_MAIN="nuevo usuario";
+    public final static String ACT_MENU="menu";
     public final static String CAT_DISCOTECA = "Discoteca";
     public final static String CAT_BAR_DE_COPAS= "Bar de copas";
     public final static String CAT_BARES="Bares";

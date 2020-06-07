@@ -11,21 +11,16 @@ public class ClaseUsuario implements Serializable {
     private String nombreUsuario;
     private String genero;
     private String urlFoto;
-    private ArrayList<LugarBar> baresFavoritos;
-    private boolean estoyAqui;
     private String barActual;
     public ClaseUsuario(String email, String password) {
         this.email = email;
         this.password = password;
-        baresFavoritos = new ArrayList<>();
-        estoyAqui=false;
     }
     public ClaseUsuario(String email,String password,String nombreUsuario,String genero){
         this.email = email;
         this.password = password;
         this.nombreUsuario = nombreUsuario;
         this.genero = genero;
-        estoyAqui = false;
     }
 
     public String getBarActual() {
@@ -40,21 +35,6 @@ public class ClaseUsuario implements Serializable {
 
     }
 
-    public boolean isEstoyAqui() {
-        return estoyAqui;
-    }
-
-    public void setEstoyAqui(boolean estoyAqui) {
-        this.estoyAqui = estoyAqui;
-    }
-
-    public ArrayList<LugarBar> getBaresFavoritos() {
-        return baresFavoritos;
-    }
-
-    public void setBaresFavoritos(ArrayList<LugarBar> baresFavoritos) {
-        this.baresFavoritos = baresFavoritos;
-    }
 
     public String getEmail() {
         return email;

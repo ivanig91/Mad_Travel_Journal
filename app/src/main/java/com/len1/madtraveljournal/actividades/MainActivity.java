@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(v.getId()== btRegist.getId()){
             Intent intent = new Intent(getApplicationContext(),NuevoUsuario.class);
+            intent.putExtra("origen",Constantes.ACT_MAIN);
             startActivity(intent);
         }else{
             if(TextUtils.isEmpty(emailString)|| TextUtils.isEmpty(passwordString) ){
@@ -83,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAuth.signInWithEmailAndPassword(emailString,passwordString).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    Log.i("prueba1",usuarioOB.getEmail());
                     buscarUsuario(usuarioOB.getEmail());
                 }
             }).addOnFailureListener(new OnFailureListener() {

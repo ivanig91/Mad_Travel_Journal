@@ -36,7 +36,6 @@ public class PostearComentario extends AppCompatActivity {
     private ClaseUsuario usuario;
     private LugarBar bar;
     private FirebaseFirestore db;
-    private ArrayList<LugarBar> listaBares;
     private ListView lv;
     private EditText comentario;
     private ImageButton ib;
@@ -60,7 +59,7 @@ public class PostearComentario extends AppCompatActivity {
         });
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
         bar = (LugarBar) intent.getSerializableExtra("bar");
-        listaBares = usuario.getBaresFavoritos();
+
         lv = findViewById(R.id.lvPosts);
         comentario = findViewById(R.id.commentEditText);
         descargaComentarios();

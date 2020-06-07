@@ -29,10 +29,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.len1.madtraveljournal.modelos.ClaseUsuario;
-import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.fragments.tabbed;
+import com.len1.madtraveljournal.modelos.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.Constantes;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -40,38 +41,43 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class NuevoUsuario extends AppCompatActivity implements View.OnClickListener {
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    private EditText nombre,eMail,pass,pass2;
+public class ActualizarUsuario extends AppCompatActivity implements View.OnClickListener  {
+    private EditText nombre;
     private Button nuevo,cargarFoto;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser usuario;
     private RadioButton rbFem,rbHom,rbLGBT;
-    private ImageView fotoInicial;
+    private CircleImageView fotoInicial;
     private static final int RESULT_LOAD_IMG=1;
     private StorageReference storageReference;
     private Uri filePath;
+    private ClaseUsuario usuarioOwner;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_usuario);
+        setContentView(R.layout.activity_actualizar_usuario);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        usuario = mAuth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
-
+        Intent intent = getIntent();
+        usuarioOwner = (ClaseUsuario) intent.getSerializableExtra("usuario");
         nombre = findViewById(R.id.etNuevoNombre);
-        eMail = findViewById(R.id.etNuevoMail);
-        pass = findViewById(R.id.etNuevaPass);
-        pass2 = findViewById(R.id.etNuevaPass2);
+        nombre.setText(usuarioOwner.getNombreUsuario());
         rbFem = findViewById(R.id.rbFEM);
         rbHom = findViewById(R.id.rbHOM);
         rbLGBT = findViewById(R.id.rbLG);
-        cargarFoto = findViewById(R.id.btCargarFoto);
         fotoInicial = findViewById(R.id.ivFotoInicial);
+        Picasso.get().load(usuarioOwner.getUrlFoto()).into(fotoInicial);
+        metodoAdivina();
+        cargarFoto = findViewById(R.id.btCargarFoto);
+
 
         rbLGBT.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -108,25 +114,33 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
         nuevo.setOnClickListener(this);
         cargarFoto.setOnClickListener(this);
     }
+    private void metodoAdivina(){
+        if (usuarioOwner.getGenero().equals(Constantes.GENERO_HOM)) {
+
+            rbHom.setChecked(true);
+        }else if(usuarioOwner.getGenero().equals(Constantes.GENERO_MUJ)){
+            rbFem.setChecked(true);
+        }else{
+            rbLGBT.setChecked(true);
+        }
+    }
 
     @Override
     public void onClick(View v) {
 
         if(v.getId() == nuevo.getId()){
             String nombreString = nombre.getText().toString();
-            String emailString = eMail.getText().toString();
-            String passString = pass.getText().toString();
-            String pass2String = pass2.getText().toString();
 
-            if(TextUtils.isEmpty(nombreString) || TextUtils.isEmpty(emailString) || TextUtils.isEmpty(
-                    passString) || TextUtils.isEmpty(pass2String)){
+            if(TextUtils.isEmpty(nombreString)){
                 Toast.makeText(this,"Debes rellenar todos los campos",Toast.LENGTH_LONG).show();
             }else{
-                if(!pass2String.equals(passString)){
-                    Toast.makeText(this,"La contraseña no coincide",Toast.LENGTH_LONG).show();
+
+                if(filePath!=null){
+                    subirFoto(usuario);
                 }else{
-                    nuevoUsuario(emailString,passString,v);
+                    updateUI(usuario,null);
                 }
+
             }
         }else{
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -136,26 +150,7 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
 
 
     }
-    private void nuevoUsuario(String emailString,String passwordString,View v){
 
-        mAuth.createUserWithEmailAndPassword(emailString,passwordString).addOnCompleteListener(
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            usuario =mAuth.getCurrentUser();
-                            if(filePath!=null){
-                                subirFoto(usuario);
-                            }else{
-                                updateUI(usuario,null);
-                            }
-
-                        }else{
-                            Log.i("exc", String.valueOf(task.getException()));
-                        }
-                    }
-                });
-    }
     private void subirFoto(final FirebaseUser user){
 
         String path = "fotoperfil/"+ UUID.randomUUID().toString();
@@ -176,22 +171,15 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
     }
     private void updateUI(FirebaseUser user, String urlFoto){
 
-        String emailString = eMail.getText().toString();
-        emailString = emailString.toLowerCase();
-        String passwordString = pass.getText().toString();
-        passwordString = passwordString.toLowerCase();
         String userName = nombre.getText().toString();
 
-        final ClaseUsuario usuarioOB = new ClaseUsuario(emailString,passwordString);
+        final ClaseUsuario usuarioOB = usuarioOwner;
         usuarioOB.setNombreUsuario(userName);
-        usuarioOB.setPassword(passwordString);
         usuarioOB.setGenero(devuelveGenero());
 
 
 
         Map<String,Object> usuario = new HashMap<>();
-        usuario.put("email",emailString);
-        usuario.put("password",passwordString);
         usuario.put("nombreUsuario",userName);
         usuario.put("genero",devuelveGenero());
         usuario.put("barActual","");
@@ -205,7 +193,7 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
 
         if(user!=null){
 
-            db.collection(Constantes.TABLA_USUARIOS).document(usuarioOB.getEmail()).set(usuario)
+            db.collection(Constantes.TABLA_USUARIOS).document(usuarioOB.getEmail()).update(usuario)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -236,11 +224,11 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
                 fotoInicial.setImageBitmap(selectedImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                Toast.makeText(NuevoUsuario.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(ActualizarUsuario.this, "Error", Toast.LENGTH_LONG).show();
             }
 
         }else {
-            Toast.makeText(NuevoUsuario.this, "No escogiste foto",Toast.LENGTH_LONG).show();
+            Toast.makeText(ActualizarUsuario.this, "No escogiste foto",Toast.LENGTH_LONG).show();
         }
     }
     private String devuelveGenero(){
@@ -254,13 +242,6 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
         }
         return  genero;
     }
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if(usuario!=null){
-            finish();
-        }
 
-    }
 
 }

@@ -15,13 +15,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentChange;
@@ -30,15 +29,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.len1.madtraveljournal.actividades.fragments.tabbed;
 import com.len1.madtraveljournal.modelos.Chat;
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.lugares.LugarBar;
-
 import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.modelos.Matches;
 import com.len1.madtraveljournal.modelos.NotificationUtils;
@@ -51,11 +46,11 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
 
     ImageView fotoLugar;
     LugarBar bar;
-    TextView tvDetalleCalle;
+
     FloatingActionButton fab;
     ClaseUsuario usuario;
     Switch swEstoyAca;
-    Button btEntrarBar;
+    Button btEntrarBar, btComoLlegar,btComentarios;
     FirebaseFirestore db;
 
 
@@ -65,20 +60,23 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_detalle_lugar);
         fotoLugar = findViewById(R.id.ivFoto3);
         swEstoyAca = findViewById(R.id.swGuardarBar);
-        tvDetalleCalle = findViewById(R.id.tvDetalleCalle);
         Intent intent = getIntent();
         bar = (LugarBar) intent.getSerializableExtra("bar");
         btEntrarBar = findViewById(R.id.btEntraBar);
         btEntrarBar.setOnClickListener(this);
+        btComentarios = findViewById(R.id.btComentarios);
+        btComoLlegar = findViewById(R.id.btComoLlegar);
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
         db  = FirebaseFirestore.getInstance();
-
-
-        this.setTitle(bar.getNombre());
-        metodoDelSwitch();
-        tvDetalleCalle.setText(bar.getDireccion());
-        fab = findViewById(R.id.fabPost);
-        fab.setOnClickListener(new View.OnClickListener() {
+        btComoLlegar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MapaActivity.class);
+                intent.putExtra("bar",bar);
+                startActivity(intent);
+            }
+        });
+        btComentarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(),PostearComentario.class);
@@ -87,6 +85,9 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent2);
             }
         });
+
+        this.setTitle(bar.getNombre());
+        metodoDelSwitch();
         Picasso.get().load(bar.getFotoUrl()).into(fotoLugar);
     }
     @Override
@@ -94,24 +95,6 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         comprobarSwitch();
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menumapa,menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent(getApplicationContext(),MapaActivity.class);
-        intent.putExtra("bar",bar);
-        startActivity(intent);
-        return super.onOptionsItemSelected(item);
-    }
-
-
 
     private void comprobarSwitch(){
         DocumentReference docRef = db.collection(Constantes.TABLA_USUARIOS).document(usuario.getEmail());
@@ -159,33 +142,40 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("bar",bar);
             startActivity(intent);
         }else{
-            Toast.makeText(this,"Tienes que estar en el bar",Toast.LENGTH_LONG);
+            Toast.makeText(this,"Tienes que estar en el bar",Toast.LENGTH_LONG).show();
         }
     }
 
     private void matchNotiON(){
        db.collection(Constantes.TABLA_MATCH).whereEqualTo("envia",usuario.getEmail())
-                .whereEqualTo("bar",bar.getNombre()).
+                .whereEqualTo("bar",bar.getNombre()).limit(10).
                 addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                ArrayList<Matches> listaMAtches = new ArrayList<>();
+
                 for(DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()){
 
-                   Matches match = dc.getDocument().toObject(Matches.class);
-                   if(match.isMatch()){
-                       listaMAtches.add(match);
-                       NotificationUtils.createNotificationChannel(getApplicationContext(),"2");
-                       Intent intent = new Intent (getApplicationContext(),Chat.class);
-                       intent.putExtra("match",match);
+                    if(dc.getType() == DocumentChange.Type.MODIFIED){
+                        Matches match = dc.getDocument().toObject(Matches.class);
 
-                       Random generator = new Random();
+                        NotificationUtils.createNotificationChannel(getApplicationContext(),"2");
+                        Intent intent = new Intent (getApplicationContext(),ChatActivity.class);
+                        intent.putExtra("match",match);
+                        intent.putExtra("usuario",usuario);
+                        intent.putExtra("coleccion",dc.getDocument().getId());
 
-                       PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                               generator.nextInt(),intent,PendingIntent.FLAG_UPDATE_CURRENT);
-                       NotificationUtils.showNotification(getApplicationContext(),R.string.channel_name,
-                               R.string.nuevo_mensaje,"2",pendingIntent);
-                   }
+                        Random generator = new Random();
+
+                        String mensaje = "Tienes un match con "+match.getNombreRecibe();
+                        String tit = "Tienes un match en "+match.getBar();
+
+                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                                generator.nextInt(),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationUtils.showNotification(getApplicationContext(),tit,
+                                mensaje,"3",pendingIntent);
+                    }
+
+
                }
                 //Envio la lista a un metodo para que actualice las colecciones que tengo match
             }

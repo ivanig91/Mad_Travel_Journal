@@ -11,6 +11,9 @@ import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +30,7 @@ public class PersonasEnBar extends AppCompatActivity {
     private ClaseUsuarioAdapter adapter;
     private LugarBar bar;
     private ClaseUsuario usuario;
+    private FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,15 @@ public class PersonasEnBar extends AppCompatActivity {
         Intent intent = getIntent();
         bar = (LugarBar) intent.getSerializableExtra("bar");
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
+        fab = findViewById(R.id.btActualizarListabar);
+        View v = findViewById(R.id.paraVer);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                descargaUsuarios();
+                Snackbar.make(v,"Actualizando lista", BaseTransientBottomBar.LENGTH_LONG).show();
+            }
+        });
 
     }
 

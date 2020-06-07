@@ -35,11 +35,12 @@ public class NotificationUtils {
         notificationManager.notify(0, builder.build());
     }
 
-    public static void showNotification(Context context, int titleId, int textId, String channelId, PendingIntent pendingIntent) {
+    public static void showNotification(Context context, String titleId, String textId, String channelId, PendingIntent pendingIntent) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_menu_send)
-                .setContentTitle(context.getString(titleId))
-                .setContentText(context.getString(textId))
+                .setContentTitle(titleId)
+                .setContentText(textId)
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

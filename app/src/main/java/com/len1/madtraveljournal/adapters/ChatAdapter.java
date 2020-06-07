@@ -16,6 +16,7 @@ import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,12 +63,11 @@ public class ChatAdapter extends RecyclerView.Adapter {
         public EnviadosHolder(@NonNull View itemView) {
             super(itemView);
             mensaje = itemView.findViewById(R.id.text_message_body);
-
+            hora = itemView.findViewById(R.id.text_message_timeS);
         }
 
         void bind(Chat chat){
             mensaje.setText(chat.getMensaje());
-            // debo poner un metodo que ponga la hora tambien
         }
 
     }

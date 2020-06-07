@@ -34,7 +34,6 @@ public class Portada extends AppCompatActivity {
 
         if(usuario!=null){
             String emailUsuario = usuario.getEmail();
-            Log.i("prueba3",emailUsuario);
             buscarUsuario(emailUsuario);
         }else{
             Intent intent = new Intent(this,MainActivity.class);
@@ -42,7 +41,6 @@ public class Portada extends AppCompatActivity {
         }
     }
     private void buscarUsuario(String usuario){
-        Log.i("prueba2",usuario);
         DocumentReference docRef = db.collection(Constantes.TABLA_USUARIOS).document(usuario);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
