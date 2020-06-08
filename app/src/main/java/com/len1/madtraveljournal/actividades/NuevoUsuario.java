@@ -119,8 +119,8 @@ public class NuevoUsuario extends AppCompatActivity implements View.OnClickListe
             String pass2String = pass2.getText().toString();
 
             if(TextUtils.isEmpty(nombreString) || TextUtils.isEmpty(emailString) || TextUtils.isEmpty(
-                    passString) || TextUtils.isEmpty(pass2String)){
-                Toast.makeText(this,"Debes rellenar todos los campos",Toast.LENGTH_LONG).show();
+                    passString) || TextUtils.isEmpty(pass2String) || filePath==null){
+                Toast.makeText(this,"Debes rellenar todos los campos y seleccionar foto",Toast.LENGTH_LONG).show();
             }else{
                 if(!pass2String.equals(passString)){
                     Toast.makeText(this,"La contraseña no coincide",Toast.LENGTH_LONG).show();

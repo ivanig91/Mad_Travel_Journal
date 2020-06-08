@@ -30,6 +30,7 @@ import com.len1.madtraveljournal.adapters.ChatAdapter;
 import com.len1.madtraveljournal.adapters.ClaseUsuarioAdapter;
 import com.len1.madtraveljournal.modelos.Chat;
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.modelos.Matches;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class ChatActivity extends AppCompatActivity {
     private Button enviar;
     private FirebaseFirestore db;
     private Matches match;
-    private String coleccion;
+    private String nombreDocumento;
     private RecyclerView listView;
     private ClaseUsuario usuarioOwner;
     @Override
@@ -60,7 +61,7 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         usuarioOwner = (ClaseUsuario) intent.getSerializableExtra("usuario");
         match = (Matches) intent.getSerializableExtra("match");
-        coleccion = intent.getStringExtra("coleccion");
+        nombreDocumento = intent.getStringExtra("coleccion");
         descargarMensajes();
         mensajesListener();
         enviar.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +82,8 @@ public class ChatActivity extends AppCompatActivity {
             mapa.put("mensaje",mensString);
             Date ahora = Calendar.getInstance().getTime();
             mapa.put("fecha",ahora);
-            db.collection(coleccion).document().set(mapa).addOnSuccessListener(new OnSuccessListener<Void>() {
+            db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).collection("Chat")
+                    .document().set(mapa).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     descargarMensajes();
@@ -92,7 +94,9 @@ public class ChatActivity extends AppCompatActivity {
     }
     private void descargarMensajes(){
 
-        db.collection(coleccion).orderBy("fecha", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).collection("Chat")
+                .orderBy("fecha", Query.Direction.ASCENDING).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -113,7 +117,9 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
     private void mensajesListener(){
-        db.collection(coleccion).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento)
+                .collection("Chat")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 descargarMensajes();
