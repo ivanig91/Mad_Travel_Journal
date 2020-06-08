@@ -11,13 +11,16 @@ public class LugarBar extends Lugar {
 
 
     public LugarBar(String id, String nombre, String descripcion, String direccion, String latitud,
-                    String longitud,String fotoUrl,String categoria,Context context) {
+                    String longitud,String fotoUrl,String categoria) {
         super(id, nombre, descripcion, direccion, latitud, longitud);
         this.fotoUrl = fotoUrl;
         this.categoria = categoria;
 
         this.setIcono(R.drawable.mercado);
     }
+   public LugarBar(){
+
+   }
 
 
 

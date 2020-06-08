@@ -19,7 +19,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private ClaseUsuario usuario;
     private Context context;
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3,R.string.tab_text_4,R.string.tab_text_5,R.string.tab_text_6};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1
+            , R.string.tab_text_2,R.string.tab_text_3,R.string.tab_text_4,R.string.tab_text_5,R.string.tab_text_6,R.string.tab_text_7};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm,ClaseUsuario usuario) {
@@ -47,6 +48,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
 
-        return 6;
+        return 7;
     }
 }

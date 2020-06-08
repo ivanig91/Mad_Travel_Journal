@@ -7,6 +7,7 @@
     <string name="tab_text_4">Flamenco</string>
     <string name="tab_text_5">Karaokes</string>
     <string name="tab_text_6">Otros</string>
+    <string name="tab_text_7">Favoritos</string>
     <string name="title_activity_info_lugar">InfoLugar</string>
     <string name="title_activity_detalle_lugar">DetalleLugar</string>
     <string name="descripcion">Descripcion</string>

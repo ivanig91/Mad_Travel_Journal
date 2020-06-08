@@ -16,13 +16,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.len1.madtraveljournal.actividades.MostrarPop;
+import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.modelos.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
 import com.len1.madtraveljournal.descargas.DescargaBares;
 import com.len1.madtraveljournal.lugares.LugarBar;
+
+import java.util.ArrayList;
 
 
 /**
@@ -38,6 +47,7 @@ public class PlaceholderFragment extends Fragment {
     private PageViewModel pageViewModel;
     private ClaseUsuario usuario;
     private Context context;
+    private FirebaseFirestore db;
 
 
 
@@ -56,6 +66,7 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        db = FirebaseFirestore.getInstance();
         int index = 1;
 
 
@@ -108,6 +119,9 @@ public class PlaceholderFragment extends Fragment {
                     listView.setAdapter(listasYAdapters.getAdapterOtros());
                     listasYAdapters.getAdapterOtros().notifyDataSetChanged();
                 }
+                if(s.equals("7")){
+                    descargaFavoritos(listView);
+                }
 
             }
         });
@@ -136,5 +150,26 @@ public class PlaceholderFragment extends Fragment {
         });
 
         return root;
+    }
+    private void descargaFavoritos(final ListView listView){
+        db.collection(Constantes.TABLA_USUARIOS).document(usuario.getEmail())
+                .collection(Constantes.TABLA_FAVS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    ArrayList<LugarBar> listaFavs = new ArrayList<>();
+                    for(QueryDocumentSnapshot document :task.getResult()){
+
+                        LugarBar bar = document.toObject(LugarBar.class);
+                        listaFavs.add(bar);
+
+                    }
+                    BarAdapter nuevoAdapter = new BarAdapter(getContext(),listaFavs);
+                    listView.setAdapter(nuevoAdapter);
+                    nuevoAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
     }
 }

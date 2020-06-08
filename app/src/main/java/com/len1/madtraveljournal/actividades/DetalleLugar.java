@@ -40,6 +40,8 @@ import com.len1.madtraveljournal.modelos.NotificationUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class DetalleLugar extends AppCompatActivity implements View.OnClickListener {
@@ -50,7 +52,8 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
     FloatingActionButton fab;
     ClaseUsuario usuario;
     Switch swEstoyAca;
-    Button btEntrarBar, btComoLlegar,btComentarios,btVerFotos;
+    Button btEntrarBar, btComoLlegar,
+            btComentarios,btVerFotos,btGuardarBar;
     FirebaseFirestore db;
 
 
@@ -58,6 +61,7 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_lugar);
+        db  = FirebaseFirestore.getInstance();
         fotoLugar = findViewById(R.id.ivFoto3);
         swEstoyAca = findViewById(R.id.swGuardarBar);
         Intent intent = getIntent();
@@ -66,6 +70,28 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         btEntrarBar.setOnClickListener(this);
         btComentarios = findViewById(R.id.btComentarios);
         btComoLlegar = findViewById(R.id.btComoLlegar);
+        btGuardarBar = findViewById(R.id.btGuardarBar);
+
+        btGuardarBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String,Object> mapa = new HashMap<>();
+                mapa.put("nombre",bar.getNombre());
+                mapa.put("descripcion",bar.getDescripcion());
+                mapa.put("direccion",bar.getDireccion());
+                mapa.put("latitud",bar.getLatitud());
+                mapa.put("longitud",bar.getLongitud());
+                mapa.put("categoria",bar.getCategoria());
+                mapa.put("fotoUrl",bar.getFotoUrl());
+                db.collection(Constantes.TABLA_USUARIOS)
+                        .document(usuario.getEmail())
+                        .collection(Constantes.TABLA_FAVS)
+                        .document(bar.getNombre())
+                        .set(mapa);
+                String mensaje = "Agregaste "+bar.getNombre()+" a tus favoritos";
+                Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_LONG).show();
+            }
+        });
         btVerFotos = findViewById(R.id.btVerFotos);
         btVerFotos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +103,7 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
             }
         });
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
-        db  = FirebaseFirestore.getInstance();
+
         btComoLlegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

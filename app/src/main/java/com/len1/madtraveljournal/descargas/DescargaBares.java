@@ -82,7 +82,7 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
                     nombre = Constantes.arreglaStrings(nombre);
                     descripcion = Constantes.arreglaStrings(descripcion);
                     bar = new LugarBar(id,nombre,descripcion,direccion,latitud,longitud,fotoUrl,
-                            categoria,context);
+                            categoria);
                     calsificarCategoria(bar);
                 }
             }

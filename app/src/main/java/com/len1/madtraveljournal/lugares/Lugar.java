@@ -21,6 +21,9 @@ public class Lugar implements Serializable {
         this.latitud = latitud;
         this.longitud = longitud;
     }
+    public Lugar(){
+
+    }
 
     public int getIcono() {
         return icono;
