@@ -48,6 +48,7 @@ public class PlaceholderFragment extends Fragment {
     private ClaseUsuario usuario;
     private Context context;
     private FirebaseFirestore db;
+    private int origen;
 
 
 
@@ -59,6 +60,7 @@ public class PlaceholderFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
+        origen = 0;
         return fragment;
     }
 
@@ -67,6 +69,7 @@ public class PlaceholderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         db = FirebaseFirestore.getInstance();
+
         int index = 1;
 
 
@@ -98,29 +101,36 @@ public class PlaceholderFragment extends Fragment {
                 if(s.equals("1")){
                    listView.setAdapter(listasYAdapters.getAdapterCoctelerias());
                    listasYAdapters.getAdapterCoctelerias().notifyDataSetChanged();
+                    origen = 0;
                 }
                 if(s.equals("2")){
                     listView.setAdapter(listasYAdapters.getAdapterDiscoteca());
                     listasYAdapters.getAdapterDiscoteca().notifyDataSetChanged();
+                    origen = 0;
                 }
                 if(s.equals("3")){
                     listView.setAdapter(listasYAdapters.getAdapterMusicaDirecto());
                     listasYAdapters.getAdapterMusicaDirecto().notifyDataSetChanged();
+                    origen = 0;
                 }
                 if(s.equals("4")){
                     listView.setAdapter(listasYAdapters.getAdapterFlamenco());
                     listasYAdapters.getAdapterFlamenco().notifyDataSetChanged();
+                    origen = 0;
                 }
                 if(s.equals("5")){
                     listView.setAdapter(listasYAdapters.getAdapterKaraoke());
                     listasYAdapters.getAdapterKaraoke().notifyDataSetChanged();
+                    origen = 0;
                 }
                 if(s.equals("6")){
                     listView.setAdapter(listasYAdapters.getAdapterOtros());
                     listasYAdapters.getAdapterOtros().notifyDataSetChanged();
+                    origen = 0;
                 }
                 if(s.equals("7")){
                     descargaFavoritos(listView);
+                    origen = 1;
                 }
 
             }
@@ -133,6 +143,7 @@ public class PlaceholderFragment extends Fragment {
                 Intent intent = new Intent(getContext(), DetalleLugar.class);
                 intent.putExtra("bar",bar);
                 intent.putExtra("usuario",usuario);
+                intent.putExtra("origen",origen);
                 startActivity(intent);
 
             }

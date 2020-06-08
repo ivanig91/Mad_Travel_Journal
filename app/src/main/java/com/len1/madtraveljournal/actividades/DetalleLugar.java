@@ -55,6 +55,7 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
     Button btEntrarBar, btComoLlegar,
             btComentarios,btVerFotos,btGuardarBar;
     FirebaseFirestore db;
+    int origen;
 
 
     @Override
@@ -66,30 +67,23 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         swEstoyAca = findViewById(R.id.swGuardarBar);
         Intent intent = getIntent();
         bar = (LugarBar) intent.getSerializableExtra("bar");
+        origen = intent.getIntExtra("origen",0);
         btEntrarBar = findViewById(R.id.btEntraBar);
         btEntrarBar.setOnClickListener(this);
         btComentarios = findViewById(R.id.btComentarios);
         btComoLlegar = findViewById(R.id.btComoLlegar);
         btGuardarBar = findViewById(R.id.btGuardarBar);
-
+        if(origen==1){
+            btGuardarBar.setText("Quitar de favoritos");
+        }
         btGuardarBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String,Object> mapa = new HashMap<>();
-                mapa.put("nombre",bar.getNombre());
-                mapa.put("descripcion",bar.getDescripcion());
-                mapa.put("direccion",bar.getDireccion());
-                mapa.put("latitud",bar.getLatitud());
-                mapa.put("longitud",bar.getLongitud());
-                mapa.put("categoria",bar.getCategoria());
-                mapa.put("fotoUrl",bar.getFotoUrl());
-                db.collection(Constantes.TABLA_USUARIOS)
-                        .document(usuario.getEmail())
-                        .collection(Constantes.TABLA_FAVS)
-                        .document(bar.getNombre())
-                        .set(mapa);
-                String mensaje = "Agregaste "+bar.getNombre()+" a tus favoritos";
-                Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_LONG).show();
+               if(origen==1){
+                    borrarFav();
+               }else{
+                   guardarComoFav();
+               }
             }
         });
         btVerFotos = findViewById(R.id.btVerFotos);
@@ -168,6 +162,29 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
                 db.collection(Constantes.TABLA_USUARIOS).document(usuario.getEmail()).set(usuario);
             }
         });
+    }
+    private void borrarFav(){
+        db.collection(Constantes.TABLA_USUARIOS)
+                .document(usuario.getEmail())
+                .collection(Constantes.TABLA_FAVS).document(bar.getNombre()).delete();
+        Toast.makeText(getApplicationContext(),"Eliminado de favoritos",Toast.LENGTH_LONG).show();
+    }
+    private void guardarComoFav(){
+        Map<String,Object> mapa = new HashMap<>();
+        mapa.put("nombre",bar.getNombre());
+        mapa.put("descripcion",bar.getDescripcion());
+        mapa.put("direccion",bar.getDireccion());
+        mapa.put("latitud",bar.getLatitud());
+        mapa.put("longitud",bar.getLongitud());
+        mapa.put("categoria",bar.getCategoria());
+        mapa.put("fotoUrl",bar.getFotoUrl());
+        db.collection(Constantes.TABLA_USUARIOS)
+                .document(usuario.getEmail())
+                .collection(Constantes.TABLA_FAVS)
+                .document(bar.getNombre())
+                .set(mapa);
+        String mensaje = "Agregaste "+bar.getNombre()+" a tus favoritos";
+        Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_LONG).show();
     }
 
     @Override
