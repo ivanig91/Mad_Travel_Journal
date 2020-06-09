@@ -1,8 +1,13 @@
 package com.len1.madtraveljournal.modelos;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class Matches implements Serializable {
+
+    private long fecha;
     private String envia;
     private String fotoEnvia;
     private String nombreEnvia;
@@ -17,6 +22,14 @@ public class Matches implements Serializable {
         this.recibe = recibe;
         this.bar = bar;
         match = false;
+    }
+
+    public long getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(long fecha) {
+        this.fecha = fecha;
     }
 
     public String getNombreEnvia() {

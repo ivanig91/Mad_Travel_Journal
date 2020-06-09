@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.len1.madtraveljournal.R;
@@ -31,6 +32,8 @@ import com.len1.madtraveljournal.modelos.Constantes;
 import com.len1.madtraveljournal.modelos.Matches;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,7 +124,10 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
 
     private void buscarDocumento(final ClaseUsuario personaBuscada, final View v){
         final String nombreDocumento = personaBuscada.getEmail()+usuarioOwner.getEmail()+usuarioOwner.getBarActual();
-        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(Constantes.TABLA_MATCH)
+                .document(nombreDocumento)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
@@ -139,7 +145,10 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
     }
     private void soyIntenso(final ClaseUsuario personaBuscada,final View v){
         final String nombreDocumento = usuarioOwner.getEmail()+personaBuscada.getEmail()+usuarioOwner.getBarActual();
-        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection(Constantes.TABLA_MATCH)
+                .document(nombreDocumento)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
@@ -173,9 +182,14 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
         mapaMatch.put("nombreRecibe",recibeUsuario.getNombreUsuario());
         mapaMatch.put("fotoRecibe",recibeUsuario.getUrlFoto());
         mapaMatch.put("bar",usuarioOwner.getBarActual());
+        Date ahora = new Date();
+        long tiempoMili = ahora.getTime();
+        mapaMatch.put("fecha",tiempoMili);
         mapaMatch.put("match",false);
-        String nombreDocumento = usuarioOwner.getEmail()+recibeUsuario.getEmail()+usuarioOwner.getBarActual();
-        db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).set(mapaMatch);
+        String miNombreDocumento = usuarioOwner.getEmail()+recibeUsuario.getEmail()+usuarioOwner.getBarActual();
+        String elOtroNombreDocumento = recibeUsuario.getEmail()+usuarioOwner.getEmail()+usuarioOwner.getBarActual();
+        db.collection(Constantes.TABLA_MATCH).document(miNombreDocumento).set(mapaMatch);
+        comprobarAlTiempo(miNombreDocumento,elOtroNombreDocumento);
     }
     private void crearMatch(Matches match, String nombreDocumento){
         if(match.isMatch()){
@@ -192,6 +206,7 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
             mapaMatch.put("bar",match.getBar());
             mapaMatch.put("match",true);
             db.collection(Constantes.TABLA_MATCH).document(nombreDocumento).update(mapaMatch);
+
         }
 
 
@@ -240,5 +255,47 @@ public class ClaseUsuarioAdapter extends BaseAdapter  {
                 });
 
         return  builder.create();
+    }
+    private void comprobarAlTiempo(final String miNombreDocumento, final String elOtroNombreDocumento){
+        db.collection(Constantes.TABLA_MATCH)
+                .document(elOtroNombreDocumento)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()){
+                        Matches match = documentSnapshot.toObject(Matches.class);
+                        compararFecha(miNombreDocumento,elOtroNombreDocumento,match);
+                    }
+
+                }
+            }
+        });
+    }
+    private void compararFecha(final String  miNombreDocumento
+            ,final String elOtroNombreDocumento
+            , final Matches laOtraFecha){
+        db.collection(Constantes.TABLA_MATCH)
+                .document(miNombreDocumento)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()){
+                        Matches match = documentSnapshot.toObject(Matches.class);
+                        long miHora = match.getFecha();
+                        if(miHora<laOtraFecha.getFecha()){
+                            elminarDocumento(miNombreDocumento);
+                            crearMatch(laOtraFecha,elOtroNombreDocumento);
+                        }
+                    }
+                }
+            }
+        });
+    }
+    private void elminarDocumento(String miNombreDocumento){
+        db.collection(Constantes.TABLA_MATCH).document(miNombreDocumento).delete();
     }
 }

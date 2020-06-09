@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(TextUtils.isEmpty(emailString)|| TextUtils.isEmpty(passwordString) ){
                 Snackbar.make(v, Constantes.MENSAJE_DATOS_VACIOS, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                //nuevoUsuario(emailString,passwordString,v);
+
             }else{
                 iniciarSes(emailString.toLowerCase(),passwordString.toLowerCase(),v);
             }
