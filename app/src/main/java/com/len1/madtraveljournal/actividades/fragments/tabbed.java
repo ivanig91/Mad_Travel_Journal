@@ -1,5 +1,6 @@
 package com.len1.madtraveljournal.actividades.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import com.len1.madtraveljournal.modelos.Constantes;
 public class tabbed extends AppCompatActivity {
     private ClaseUsuario usuario;
     private AppBarConfiguration mAppBarConfiguration;
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

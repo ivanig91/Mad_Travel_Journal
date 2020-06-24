@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,131 +19,67 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.len1.madtraveljournal.actividades.MostrarPop;
-import com.len1.madtraveljournal.adapters.BarAdapter;
-import com.len1.madtraveljournal.descargas.DescargaCondicion;
-import com.len1.madtraveljournal.modelos.ClaseUsuario;
-import com.len1.madtraveljournal.modelos.Constantes;
-import com.len1.madtraveljournal.modelos.ListasYAdapters;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
-import com.len1.madtraveljournal.descargas.DescargaBares;
+import com.len1.madtraveljournal.actividades.MostrarPop;
+import com.len1.madtraveljournal.adapters.BarAdapter;
+import com.len1.madtraveljournal.descargas.DescargaCYC;
 import com.len1.madtraveljournal.lugares.LugarBar;
+import com.len1.madtraveljournal.modelos.ClaseUsuario;
+import com.len1.madtraveljournal.modelos.Constantes;
 
 import java.util.ArrayList;
 
-
-/**
- * A placeholder fragment containing a simple view.
- */
-public class PlaceholderFragment extends Fragment {
-
+public class FragmentFavoritos extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private DescargaBares desBar;
-    private ListasYAdapters listasYAdapters;
-    private ArrayList<LugarBar>listaUnica;
-    private BarAdapter adapterUnico;
-    private PageViewModel pageViewModel;
     private ClaseUsuario usuario;
-    private Context context;
     private FirebaseFirestore db;
+    private Context context;
+    private BarAdapter adapter;
     private int origen;
+    private ListView listView;
 
-
-
-
-    public  PlaceholderFragment newInstance(int index,ClaseUsuario usuario,Context context) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public FragmentFavoritos newInstance(int index,ClaseUsuario usuario,Context context){
+        FragmentFavoritos fragment = new FragmentFavoritos();
         this.usuario = usuario;
         this.context = context;
         Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
+        bundle.putInt(ARG_SECTION_NUMBER,index);
+        origen =1;
         fragment.setArguments(bundle);
-        origen = 0;
-        return fragment;
+        return  fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        db = FirebaseFirestore.getInstance();
+        PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
+        db = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
+        ArrayList<LugarBar> lista = new ArrayList<>();
+        adapter = new BarAdapter(getContext(), lista);
 
         //listasYAdapters = new ListasYAdapters(getActivity().getApplicationContext());
-        listaUnica= new ArrayList<>();
-        adapterUnico = new BarAdapter(getContext(),listaUnica);
         /*
         desBar = new DescargaBares(listasYAdapters,getActivity().getApplicationContext());
-        desBar.execute();
-        */
+        desBar.execute();*/
+        //private DescargaBares desBar;
+
     }
 
+    @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_tabbed, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tabbed,container,false);
         Intent intent = getActivity().getIntent();
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
-
-        final ListView listView = root.findViewById(R.id.lali1);
-        listView.setAdapter(adapterUnico);
-
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                assert s != null;
-                /*
-                if(s.equals("1")){
-                   listView.setAdapter(listasYAdapters.getAdapterCoctelerias());
-                   listasYAdapters.getAdapterCoctelerias().notifyDataSetChanged();
-                    origen = 0;
-                }*/
-                if(s.equals("2")){
-                    listaUnica.clear();
-                    DescargaCondicion des = new DescargaCondicion(listaUnica,getContext()
-                            ,adapterUnico,Constantes.CAT_DISCOTECA);
-                    des.execute();
-                     origen = 0;
-                }
-                if(s.equals("3")){
-                    listaUnica.clear();
-                    DescargaCondicion des = new DescargaCondicion(listaUnica,getContext()
-                            ,adapterUnico,Constantes.CAT_MUSICA_DIRECTO);
-                    des.execute();
-                    origen = 0;
-                }
-                if(s.equals("4")){
-                    listaUnica.clear();
-                    DescargaCondicion des = new DescargaCondicion(listaUnica,getContext()
-                            ,adapterUnico,Constantes.CAT_FLAMENCO);
-                    des.execute();
-                    origen = 0;
-                }
-                if(s.equals("5")){
-                    listaUnica.clear();
-                    DescargaCondicion des = new DescargaCondicion(listaUnica,getContext()
-                            ,adapterUnico,Constantes.CAT_KARAOKE);
-                    des.execute();
-                    origen = 0;
-                }
-                if(s.equals("6")){
-                    descargaFavoritos(listView);
-                    origen = 1;
-                }
-                if(s.equals("7")){
-                    descargaFavoritos(listView);
-                    origen = 1;
-                }
-
-            }
-        });
-
+        listView = view.findViewById(R.id.lali1);
+        listView.setAdapter(adapter);
+        descargaFavoritos(listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -169,8 +103,7 @@ public class PlaceholderFragment extends Fragment {
                 return false;
             }
         });
-
-        return root;
+        return view;
     }
     private void descargaFavoritos(final ListView listView){
         db.collection(Constantes.TABLA_USUARIOS).document(usuario.getEmail())

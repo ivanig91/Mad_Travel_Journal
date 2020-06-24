@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.len1.madtraveljournal.modelos.ClaseUsuario;
 import com.len1.madtraveljournal.R;
+import com.len1.madtraveljournal.modelos.Constantes;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -17,10 +18,9 @@ import com.len1.madtraveljournal.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private ClaseUsuario usuario;
-    private Context context;
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1
-            , R.string.tab_text_2,R.string.tab_text_3,R.string.tab_text_4,R.string.tab_text_5,R.string.tab_text_6,R.string.tab_text_7};
+            , R.string.tab_text_2,R.string.tab_text_3,R.string.tab_text_4,R.string.tab_text_5,R.string.tab_text_7};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm,ClaseUsuario usuario) {
@@ -34,9 +34,35 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        PlaceholderFragment fragment = new PlaceholderFragment();
+        // Los objetos de descarga de datos los voy a descargar desde tabbed y le tienen que
+        //
 
-        return fragment.newInstance(position + 1,usuario,mContext);
+
+        if(position==0){
+            FragmentCc fragmentCc = new FragmentCc();
+            return  fragmentCc.newInstance(position+1,usuario,mContext);
+        }else if (position ==1){
+            /*
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            return fragment.newInstance(position + 1,usuario,mContext);
+             */
+            FragmentCondicion fragment = new FragmentCondicion(Constantes.CAT_DISCOTECA);
+
+            return fragment.newInstance(position+1,usuario,mContext);
+        }else if(position ==2){
+            FragmentCondicion fragment = new FragmentCondicion(Constantes.CAT_MUSICA_DIRECTO);
+            return fragment.newInstance(position+1,usuario,mContext);
+        }else if(position==3){
+            FragmentCondicion fragment = new FragmentCondicion(Constantes.CAT_FLAMENCO);
+            return fragment.newInstance(position+1,usuario,mContext);
+        }else if( position ==4){
+            FragmentCondicion fragment = new FragmentCondicion(Constantes.CAT_KARAOKE);
+            return fragment.newInstance(position+1,usuario,mContext);
+        }else{
+            FragmentFavoritos fragmentFavoritos = new FragmentFavoritos();
+            return fragmentFavoritos.newInstance(position+1,usuario,mContext);
+        }
+
     }
 
     @Nullable
@@ -48,6 +74,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
 
-        return 7;
+        return TAB_TITLES.length;
     }
 }

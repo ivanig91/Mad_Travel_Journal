@@ -6,7 +6,6 @@
     <string name="tab_text_3">Musica en directo</string>
     <string name="tab_text_4">Flamenco</string>
     <string name="tab_text_5">Karaokes</string>
-    <string name="tab_text_6">Otros</string>
     <string name="tab_text_7">Favoritos</string>
     <string name="title_activity_info_lugar">InfoLugar</string>
     <string name="title_activity_detalle_lugar">DetalleLugar</string>
@@ -37,6 +36,10 @@
     <string name="aceptar">Ok</string>
     <string name="match_enviado">Esperando respuesta de </string>
     <string name="match_ecnotnrado">Has hecho match con </string>
+    <string name="title_activity_nueva_landing">NuevaLanding</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>
