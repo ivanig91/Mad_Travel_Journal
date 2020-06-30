@@ -1,5 +1,6 @@
 package com.len1.madtraveljournal.descargas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -30,6 +31,7 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
 
     private ListasYAdapters listasYAdapters;
     private Context context;
+    private ProgressDialog dialog;
     LugarBar bar = null;
     public DescargaBares(ListasYAdapters listasYAdapters,Context context) {
         this.context = context;
@@ -125,7 +127,13 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
     }
 
 
-
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        dialog = new ProgressDialog(context);
+        dialog.setTitle(R.string.mensaje_cargando);
+        dialog.show();
+    }
 
     @Override
     protected void onCancelled() {
@@ -143,6 +151,9 @@ public class DescargaBares extends AsyncTask<String,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         listasYAdapters.notificarAdapters();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
 
     }
 

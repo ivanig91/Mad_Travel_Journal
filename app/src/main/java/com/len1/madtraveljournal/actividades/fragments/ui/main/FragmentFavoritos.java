@@ -1,13 +1,18 @@
 package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +43,9 @@ public class FragmentFavoritos extends Fragment {
     private BarAdapter adapter;
     private int origen;
     private ListView listView;
+    private SearchView searchView=null;
+    BarAdapter nuevoAdapter;
+    private SearchView.OnQueryTextListener queryTextListener;
 
     public FragmentFavoritos newInstance(int index,ClaseUsuario usuario,Context context){
         FragmentFavoritos fragment = new FragmentFavoritos();
@@ -54,6 +62,7 @@ public class FragmentFavoritos extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        setHasOptionsMenu(true);
         int index = 1;
         db = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
@@ -118,12 +127,46 @@ public class FragmentFavoritos extends Fragment {
                         listaFavs.add(bar);
 
                     }
-                    BarAdapter nuevoAdapter = new BarAdapter(getContext(),listaFavs);
+                    nuevoAdapter = new BarAdapter(getContext(),listaFavs);
                     listView.setAdapter(nuevoAdapter);
                     nuevoAdapter.notifyDataSetChanged();
                 }
 
             }
         });
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.info, menu);
+        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        if(searchItem!=null){
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if(searchView!=null){
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // aca debo poner aglo que cierre el dialogo de texto
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    nuevoAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            };
+
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

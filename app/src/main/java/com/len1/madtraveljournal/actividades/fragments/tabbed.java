@@ -1,14 +1,17 @@
 package com.len1.madtraveljournal.actividades.fragments;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
@@ -47,26 +50,7 @@ public class tabbed extends AppCompatActivity {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.info,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.menuPerfil){
-            Intent intent = new Intent(this, ActualizarUsuario.class);
-            intent.putExtra("origen", Constantes.ACT_MENU);
-            intent.putExtra("usuario",usuario);
-            startActivity(intent);
-        }else if(item.getItemId() == R.id.menuCerrarSesion){
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            mAuth.signOut();
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

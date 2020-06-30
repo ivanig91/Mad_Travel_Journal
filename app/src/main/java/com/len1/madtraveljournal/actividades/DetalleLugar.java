@@ -98,6 +98,7 @@ public class DetalleLugar extends AppCompatActivity implements View.OnClickListe
         });
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
 
+
         btComoLlegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

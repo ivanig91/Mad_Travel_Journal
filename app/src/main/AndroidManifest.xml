@@ -52,7 +52,13 @@
         <activity
             android:name=".actividades.fragments.tabbed"
             android:label="@string/title_activity_tabbed"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
         <activity android:name=".actividades.MainActivity" />
     </application>
 

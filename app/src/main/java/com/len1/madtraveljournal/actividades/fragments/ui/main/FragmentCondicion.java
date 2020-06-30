@@ -1,14 +1,19 @@
 package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,12 +37,13 @@ public class FragmentCondicion extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private PageViewModel pageViewModel;
     private ClaseUsuario usuario;
-    private Context context;
     private ArrayList<LugarBar> lista;
     private BarAdapter adapter;
     private int origen;
     private ListView listView;
     private String condicion;
+    private SearchView searchView=null;
+    private SearchView.OnQueryTextListener queryTextListener;
     public FragmentCondicion(String condicion){
         this.condicion = condicion;
     }
@@ -45,7 +51,6 @@ public class FragmentCondicion extends Fragment {
              ){
         FragmentCondicion fragment = new FragmentCondicion(condicion);
         this.usuario = usuario;
-        this.context = context;
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER,index);
         origen =0;
@@ -58,6 +63,7 @@ public class FragmentCondicion extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        setHasOptionsMenu(true);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -65,12 +71,7 @@ public class FragmentCondicion extends Fragment {
         pageViewModel.setIndex(index);
         lista = new ArrayList<>();
         adapter = new BarAdapter(getContext(),lista);
-
-        //listasYAdapters = new ListasYAdapters(getActivity().getApplicationContext());
-        /*
-        desBar = new DescargaBares(listasYAdapters,getActivity().getApplicationContext());
-        desBar.execute();*/
-        DescargaCondicion desBar = new DescargaCondicion(lista, context, adapter, condicion);
+        DescargaCondicion desBar = new DescargaCondicion(lista, getContext(), adapter, condicion);
         desBar.execute();
 
     }
@@ -112,5 +113,39 @@ public class FragmentCondicion extends Fragment {
 
 
         return view;
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.info, menu);
+        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        if(searchItem!=null){
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if(searchView!=null){
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // aca debo poner aglo que cierre el dialogo de texto
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    adapter.getFilter().filter(newText);
+                    return false;
+                }
+            };
+
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,9 +1,11 @@
 package com.len1.madtraveljournal.descargas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.lugares.LugarBar;
 import com.len1.madtraveljournal.modelos.Constantes;
@@ -28,6 +30,7 @@ public class DescargaCondicion extends AsyncTask<String,Void,Void> {
     private ArrayList<LugarBar> lista;
     private BarAdapter adapter;
     private Context context;
+    private ProgressDialog dialog;
     private LugarBar lugar =null;
     private String condicion;
 
@@ -102,6 +105,16 @@ public class DescargaCondicion extends AsyncTask<String,Void,Void> {
 
         return null;
     }
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if(context!=null){
+            dialog = new ProgressDialog(context);
+            dialog.setTitle(R.string.mensaje_cargando);
+            dialog.show();
+        }
+
+    }
 
     @Override
     protected void onCancelled() {
@@ -117,5 +130,8 @@ public class DescargaCondicion extends AsyncTask<String,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         adapter.notifyDataSetChanged();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
     }
 }
