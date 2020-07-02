@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,9 +37,9 @@ public class tabbed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
         Intent in = getIntent();
-        /*
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+        setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
         usuario = (ClaseUsuario) in.getSerializableExtra("usuario");
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this,
@@ -48,8 +49,6 @@ public class tabbed extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-
 
     }
 

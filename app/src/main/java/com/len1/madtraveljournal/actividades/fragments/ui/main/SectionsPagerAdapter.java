@@ -1,9 +1,12 @@
 package com.len1.madtraveljournal.actividades.fragments.ui.main;
 
 import android.content.Context;
+import android.util.Log;
+
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -25,7 +28,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public SectionsPagerAdapter(Context context, FragmentManager fm,ClaseUsuario usuario) {
         super(fm);
-
         this.usuario = usuario;
         mContext = context;
     }
@@ -40,6 +42,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         if(position==0){
             FragmentCc fragmentCc = new FragmentCc();
+
             return  fragmentCc.newInstance(position+1,usuario,mContext);
         }else if (position ==1){
             /*
