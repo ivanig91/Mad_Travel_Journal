@@ -41,9 +41,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="mensaje_cargando">Cargando..</string>
-    <string name="menu_home">Inicio</string>
-    <string name="menu_gallery">Opcion2</string>
-    <string name="menu_slideshow">Opcion3</string>
+    <string name="menu_home">Configuración de usuario</string>
+    <string name="menu_gallery">Configuración de App</string>
+    <string name="menu_slideshow">Cerrar sesión</string>
 
 
 </resources>

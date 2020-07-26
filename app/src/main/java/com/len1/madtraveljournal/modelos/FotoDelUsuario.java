@@ -5,16 +5,28 @@ public class FotoDelUsuario {
     private String urlFotoUsuario;
     private String urlFotoBar;
     private String nombreBar;
+    private String comentarioBar;
+    //poner atributo de comentario
+    // por lo tanto la coleccion de comentarios ya no me servira
 
 
     public FotoDelUsuario(String nombreUsuario, String urlFotoUsuario, String urlFotoBar,
-                          String nombreBar) {
+                          String nombreBar, String comentarioBar) {
         this.nombreUsuario = nombreUsuario;
         this.urlFotoUsuario = urlFotoUsuario;
         this.urlFotoBar = urlFotoBar;
         this.nombreBar = nombreBar;
-
+        this.comentarioBar = comentarioBar;
     }
+
+    public String getComentarioBar() {
+        return comentarioBar;
+    }
+
+    public void setComentarioBar(String comentarioBar) {
+        this.comentarioBar = comentarioBar;
+    }
+
     public FotoDelUsuario(){
 
     }

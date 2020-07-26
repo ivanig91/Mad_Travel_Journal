@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.len1.madtraveljournal">
+    package="com.len1.madtraveljournal" >
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -15,13 +15,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".actividades.InfoLugar"
+            android:label="@string/title_activity_info_lugar" >
+        </activity>
         <activity android:name=".actividades.VerFotos" />
         <activity android:name=".actividades.ActualizarUsuario" />
         <activity android:name=".actividades.ChatActivity" />
         <activity android:name=".actividades.PersonasEnBar" />
         <activity android:name=".actividades.MostrarPop" />
-        <activity android:name=".actividades.Portada">
+        <activity android:name=".actividades.Portada" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,8 +60,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".actividades.MainActivity" />
     </application>

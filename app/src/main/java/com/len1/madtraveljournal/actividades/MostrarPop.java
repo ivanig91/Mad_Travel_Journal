@@ -45,6 +45,8 @@ public class MostrarPop extends Activity {
         descripcion.setText(bar.getDescripcion());
         //Picasso.get().load(lugar.getFotoUrl()).into(holder.icono);
         Picasso.get().load(bar.getFotoUrl()).into(foto);
+        // Antes de descomentar el codigo crea el FAB de nuevo
+        /*
         FloatingActionButton fab = findViewById(R.id.btPopCerrar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +54,6 @@ public class MostrarPop extends Activity {
                 finish();
             }
         });
-
+*/
     }
 }

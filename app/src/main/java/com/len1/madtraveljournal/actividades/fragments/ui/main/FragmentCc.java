@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.len1.madtraveljournal.R;
 import com.len1.madtraveljournal.actividades.DetalleLugar;
+import com.len1.madtraveljournal.actividades.InfoLugar;
 import com.len1.madtraveljournal.actividades.MostrarPop;
 import com.len1.madtraveljournal.adapters.BarAdapter;
 import com.len1.madtraveljournal.descargas.DescargaBares;
@@ -79,9 +80,9 @@ public class FragmentCc extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tabbed,container,false);
-        Intent intent = getActivity().getIntent();
+        final Intent intent = getActivity().getIntent();
         usuario = (ClaseUsuario) intent.getSerializableExtra("usuario");
         listView = view.findViewById(R.id.lali1);
         listView.setAdapter(adapter);
@@ -89,11 +90,18 @@ public class FragmentCc extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LugarBar bar = (LugarBar) parent.getItemAtPosition(position);
+                /*
                 Intent intent = new Intent(getContext(), DetalleLugar.class);
                 intent.putExtra("bar",bar);
                 intent.putExtra("usuario",usuario);
                 intent.putExtra("origen",origen);
                 startActivity(intent);
+                 */
+                Intent nuevoIntent = new Intent(getContext(), InfoLugar.class);
+                nuevoIntent.putExtra("bar",bar);
+                nuevoIntent.putExtra("usuario",usuario);
+                nuevoIntent.putExtra("origen",origen);
+                startActivity(nuevoIntent);
 
             }
         });
